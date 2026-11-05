@@ -2,16 +2,33 @@
 
 Backend principal de la plataforma AMaint.
 
-Tecnología principal:
+Responsable de la lógica de negocio, seguridad,
+procesamiento de información y comunicación
+entre la base de datos y la aplicación web.
+
+## Tecnologías
+
 - Java
 - Spring Boot
+- Spring Security
+- Spring Data JPA
 - PostgreSQL
 
-Responsabilidades:
+## Funcionalidades previstas
+
 - Autenticación y autorización.
 - Administración de empresas.
 - Gestión de usuarios y roles.
-- Gestión de activos y mantenimiento.
-- Administración de módulos y configuraciones.
-- Gestión de suscripciones y licencias.
-- API para aplicaciones web y móviles.
+- Arquitectura multiempresa.
+- Gestión de activos.
+- Gestión de mantenimiento.
+- Órdenes de trabajo.
+- Control de inventario.
+- Administración de módulos.
+- Configuraciones empresariales.
+- Suscripciones y licencias.
+
+## Comunicación
+
+Exposición de servicios mediante API REST
+para la aplicación web AMaint.
