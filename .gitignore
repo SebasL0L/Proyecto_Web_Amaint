@@ -16,7 +16,7 @@ build/
 out/
 
 # =========================
-# REACT / NODE
+# JAVASCRIPT / REACT
 # =========================
 
 node_modules/
@@ -26,16 +26,6 @@ build/
 coverage/
 npm-debug.log*
 yarn-debug.log*
-
-# =========================
-# REACT NATIVE / EXPO
-# =========================
-
-.expo/
-.expo-shared/
-android/
-ios/
-web-build/
 
 # =========================
 # ENVIRONMENT VARIABLES
@@ -54,7 +44,7 @@ Thumbs.db
 desktop.ini
 
 # =========================
-# DATABASE / LOCAL DATA
+# LOCAL DATABASE FILES
 # =========================
 
 *.db
