@@ -2,18 +2,34 @@
 
 Aplicación web principal de AMaint.
 
+Esta aplicación constituye la interfaz de acceso
+para usuarios personales, empresas asociadas y
+administradores centrales de la plataforma.
+
 ## Tecnologías
+
+- JavaScript
 - React
-- JavaScript / TypeScript
-- CSS
+- HTML5
+- CSS3
 
 ## Funcionalidades previstas
+
 - Página pública del producto.
 - Registro e inicio de sesión.
 - Portal empresarial.
-- Panel administrativo central.
-- Visualizador de empresas.
+- Panel de administración central.
+- Visualizador de organizaciones.
+- Gestión de empresas y usuarios.
 - Gestión de módulos y configuraciones.
+- Interfaz adaptable a distintos dispositivos.
 
-Esta aplicación se conectará al backend central
-mediante una API REST.
+## Integración
+
+La aplicación se comunicará con el backend
+Java Spring Boot mediante una API REST.
+
+## Despliegue
+
+La aplicación será publicada mediante un servicio
+de hosting conectado al repositorio GitHub.
