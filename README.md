@@ -5,7 +5,7 @@
 
 El proyecto busca centralizar la administración de activos, mantenimiento, órdenes de trabajo, inventario y análisis operacional mediante una plataforma digital adaptable.
 
-## Objetivo del proyecto
+## Objetivo del proyecto.
 
 Desarrollar una solución tecnológica escalable y multiempresa que permita a distintas organizaciones gestionar sus procesos de mantenimiento desde un entorno centralizado, configurable y seguro.
 
