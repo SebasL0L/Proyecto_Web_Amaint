@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class    AmaintApiApplication {
+public class   AmaintApiApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(AmaintApiApplication.class, args);
