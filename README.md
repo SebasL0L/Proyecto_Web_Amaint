@@ -33,10 +33,11 @@ y seguro.
 |---|---|
 | Diseño visual | Figma |
 | Backend | Java + Spring Boot |
-| Frontend | JavaScript + React |
-| Base de datos | PostgreSQL / supabase |
+| Frontend | JavaScript/TypeScript + React |
+| Base de datos | PostgreSQL |
+| Plataforma de servicios BD | Supabase |
 | Control de versiones | Git + GitHub |
-| Despliegue | Hosting web |
+| Despliegue | Por definir |
 
 ## Modelo de funcionamiento
 
@@ -60,6 +61,9 @@ de adaptación, licencias y suscripciones.
 ## Estado del proyecto
 
 Etapa de Desarrollo 2.0
+
+Por desarrollar conexiones entre Frontend y Backend
+libre de redundancias con una estructura clara.
 
 ## Equipo
 
