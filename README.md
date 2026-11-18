@@ -69,3 +69,10 @@ libre de redundancias con una estructura clara.
 
 Proyecto desarrollado colaborativamente
 por un equipo de cuatro integrantes.
+
+| Integrante | Rol |
+|---|---|
+| Sebastián Carrasco | Backend Developer |
+| Javiera Chiple | Analista de Requisitos |
+| Vicente Serrano | Product Owner/Scrum Master |
+| Lucas Orell | Frontend Developer |
