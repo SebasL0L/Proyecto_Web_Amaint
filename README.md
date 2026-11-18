@@ -53,7 +53,7 @@ de adaptación, licencias y suscripciones.
 ## Estructura del repositorio
 
 - `backend/`: lógica de negocio y API.
-- `frontend/web/`: aplicación web.
+- `frontend/`: aplicación web.
 - `docs/`: documentación y planificación.
 - `designs/`: diseños y prototipos.
 - `infrastructure/`: despliegue e infraestructura.
