@@ -1,7 +1,7 @@
-# AMaint
+# Amaint
 ### Controla. Previene. Optimiza.
 
-**AMaint** es una plataforma web de gestión de mantenimiento
+**Amaint** es una plataforma web de gestión de mantenimiento
 industrial (CMMS), diseñada para adaptarse a las necesidades
 operativas de distintas empresas.
 
@@ -11,7 +11,7 @@ mediante una solución digital configurable y escalable.
 
 ## Objetivo
 
-Desarrollar una plataforma web multiempresa que permita
+Desarrollar una plataforma web que permita
 a distintas organizaciones gestionar sus procesos de
 mantenimiento desde un entorno centralizado, adaptable
 y seguro.
@@ -26,7 +26,6 @@ y seguro.
 - Indicadores de mantenimiento.
 - Configuración de módulos por empresa.
 - Administración central de organizaciones.
-- Gestión de suscripciones y licencias.
 
 ## Arquitectura tecnológica
 
@@ -41,7 +40,7 @@ y seguro.
 
 ## Modelo de funcionamiento
 
-AMaint contempla una arquitectura multiempresa.
+Amaint contempla una arquitectura multiempresa.
 Cada organización podrá disponer de módulos,
 configuraciones, usuarios y permisos adaptados
 a sus necesidades.
@@ -60,13 +59,9 @@ de adaptación, licencias y suscripciones.
 
 ## Estado del proyecto
 
-Etapa inicial de planificación y desarrollo.
+Etapa de Desarrollo 2.0
 
 ## Equipo
 
 Proyecto desarrollado colaborativamente
 por un equipo de cuatro integrantes.
-
----
-
-AMaint — Controla. Previene. Optimiza.
