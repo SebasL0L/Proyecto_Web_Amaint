@@ -35,7 +35,7 @@ y seguro.
 | Diseño visual | Figma |
 | Backend | Java + Spring Boot |
 | Frontend | JavaScript + React |
-| Base de datos | PostgreSQL |
+| Base de datos | PostgreSQL / supabase |
 | Control de versiones | Git + GitHub |
 | Despliegue | Hosting web |
 
