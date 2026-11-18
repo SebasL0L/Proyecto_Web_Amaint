@@ -1,12 +1,12 @@
-# AMaint - Designs
+# Amaint - Designs
 
 Recursos visuales y prototipos del proyecto.
 
 ## Organización
 
-- figma: diseños originales.
+- Google Stitch: diseños originales.
 - assets: iconos, imágenes y logotipos.
 - prototypes: prototipos visuales.
 
-Figma será nuestra herramienta principal
+Google Stitch será nuestra herramienta principal
 para diseñar las interfaces.
