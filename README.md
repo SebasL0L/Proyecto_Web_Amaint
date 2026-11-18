@@ -31,7 +31,7 @@ y seguro.
 
 | Componente | Tecnología |
 |---|---|
-| Diseño visual | Figma |
+| Diseño visual | Google Stitch |
 | Backend | Java + Spring Boot |
 | Frontend | JavaScript/TypeScript + React |
 | Base de datos | PostgreSQL |
