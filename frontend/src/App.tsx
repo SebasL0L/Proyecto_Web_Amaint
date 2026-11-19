@@ -576,187 +576,286 @@ function Benefits() {
 // PRICING
 // --------------------------------------------------
 
+
+
 function Pricing({ onNavigate }: PublicProps) {
   const plans = [
     {
-      name: 'Inicial',
-      price: '$180.000',
-      description: 'Para organizaciones que comienzan a centralizar su mantenimiento.',
+      name: 'Personal',
+      description:
+        'Para quienes necesitan organizar y controlar sus actividades de mantenimiento de forma sencilla.',
+      tag: 'PARA USO PERSONAL',
       features: [
         'Gestión básica de activos',
         'Órdenes de trabajo',
-        'Usuarios según perfil',
-        'Soporte estándar'
-      ]
+        'Organización de actividades',
+        'Acceso a funcionalidades esenciales',
+        'Servicio mediante suscripción SaaS'
+      ],
+      action: 'Comenzar con AMaint',
+      personal: true
     },
     {
-      name: 'Profesional',
-      price: '$450.000',
-      popular: true,
-      description: 'Para empresas que necesitan mayor control y coordinación.',
+      name: 'Empresarial',
+      description:
+        'Para organizaciones que necesitan adaptar AMaint a sus procesos y estructura operacional.',
+      tag: 'PARA ORGANIZACIONES',
       features: [
-        'Todo lo del plan Inicial',
-        'Gestión avanzada de operaciones',
+        'Gestión de empresas y plantas',
+        'Administración de áreas, líneas y activos',
+        'Gestión de órdenes y operaciones',
         'Indicadores de mantenimiento',
-        'Gestión de repuestos',
-        'Mayor capacidad de usuarios'
-      ]
-    },
-    {
-      name: 'Corporativo',
-      price: '$950.000',
-      description: 'Para organizaciones con necesidades operacionales más amplias.',
-      features: [
-        'Todo lo del plan Profesional',
-        'Capacidades ampliadas',
-        'Gestión de múltiples áreas',
-        'Configuración empresarial',
-        'Opciones de ampliación'
-      ]
+        'Capacidades según necesidades de la empresa',
+        'Alternativas de ampliación y personalización'
+      ],
+      action: 'Solicitar información',
+      personal: false
     }
   ];
 
   return (
-      <section id="planes" className="py-24 bg-slate-50 scroll-mt-20">
-        <div className="max-w-7xl mx-auto px-5 lg:px-8">
-          <SectionReveal className="text-center max-w-3xl mx-auto mb-16">
-            <p className="text-blue-700 font-bold text-xs tracking-widest mb-5">
-              PLANES Y LICENCIAS
-            </p>
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-900">
-              Una modalidad que se adapta a tu empresa.
-            </h2>
-            <p className="text-slate-600 mt-6 text-lg">
-              Opciones de servicio según las capacidades y necesidades
-              de cada organización.
-            </p>
-          </SectionReveal>
+    <section id="planes" className="py-24 bg-slate-50 scroll-mt-20">
+      <div className="max-w-7xl mx-auto px-5 lg:px-8">
 
-          <div className="grid md:grid-cols-3 gap-6 items-stretch">
-            {plans.map(plan => (
-                <SectionReveal key={plan.name}>
-                  <div className={`relative h-full bg-white rounded-2xl border p-8 flex flex-col ${
-                      plan.popular
-                          ? 'border-blue-600 shadow-xl shadow-blue-900/10'
-                          : 'border-slate-200'
-                  }`}>
-                    {plan.popular && (
-                        <span className="absolute -top-3 left-8 bg-blue-600 text-white text-xs font-bold px-4 py-1.5 rounded-full">
-                    MÁS EQUILIBRADO
-                  </span>
-                    )}
-
-                    <h3 className="text-2xl font-bold text-slate-900">{plan.name}</h3>
-                    <p className="text-slate-500 text-sm mt-3 min-h-12">
-                      {plan.description}
-                    </p>
-
-                    <div className="mt-7">
-                      <span className="text-4xl font-bold text-slate-900">{plan.price}</span>
-                      <span className="text-slate-500 text-sm"> / mes</span>
-                    </div>
-
-                    <div className="border-t border-slate-200 my-7" />
-
-                    <p className="font-semibold text-sm text-slate-900 mb-5">
-                      Características incluidas
-                    </p>
-
-                    <ul className="space-y-4 flex-1">
-                      {plan.features.map(feature => (
-                          <li key={feature} className="flex gap-3 text-sm text-slate-600">
-                            <Check size={18} className="text-blue-600 shrink-0" />
-                            {feature}
-                          </li>
-                      ))}
-                    </ul>
-
-                    <button onClick={() => onNavigate('register')}
-                            className={`mt-9 w-full rounded-lg py-3.5 font-semibold transition ${
-                                plan.popular
-                                    ? 'bg-blue-600 text-white hover:bg-blue-500'
-                                    : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
-                            }`}>
-                      Consultar plan <ArrowRight size={16} className="inline ml-2" />
-                    </button>
-                  </div>
-                </SectionReveal>
-            ))}
-          </div>
-
-          <div className="mt-12 bg-[#101a29] text-white rounded-2xl p-8 lg:p-10 flex flex-col lg:flex-row justify-between gap-8 items-center">
-            <div>
-              <h3 className="text-2xl font-bold">¿Necesitas una licencia empresarial?</h3>
-              <p className="text-slate-300 mt-3 max-w-2xl">
-                AMaint contempla una modalidad de licencia independiente
-                del servicio SaaS. El alojamiento y los servicios de
-                implementación se cotizan por separado.
-              </p>
-            </div>
-            <button onClick={() => onNavigate('register')}
-                    className="shrink-0 bg-white text-slate-900 px-6 py-4 rounded-lg font-semibold hover:bg-slate-100 transition">
-              Consultar licencia <ArrowUpRight className="inline ml-2" size={17} />
-            </button>
-          </div>
-
-          <p className="text-xs text-slate-400 text-center mt-6">
-            Tarifas de referencia para la propuesta comercial. Límites,
-            impuestos, adicionales y condiciones sujetos a validación.
+        <SectionReveal className="text-center max-w-3xl mx-auto mb-16">
+          <p className="text-blue-700 font-bold text-xs tracking-widest mb-5">
+            PLANES Y MODALIDADES
           </p>
+
+          <h2 className="text-3xl md:text-5xl font-bold text-slate-900">
+            AMaint se adapta a tus necesidades.
+          </h2>
+
+          <p className="text-slate-600 mt-6 text-lg">
+            Elige una modalidad según el alcance de tu operación.
+            Para necesidades empresariales específicas, podemos evaluar
+            una propuesta personalizada.
+          </p>
+        </SectionReveal>
+
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {plans.map(plan => (
+            <SectionReveal key={plan.name}>
+              <div className={`relative h-full bg-white rounded-2xl border p-8 lg:p-10 flex flex-col ${
+                !plan.personal
+                  ? 'border-blue-600 shadow-xl shadow-blue-900/10'
+                  : 'border-slate-200'
+              }`}>
+
+                {!plan.personal && (
+                  <span className="absolute -top-3 left-8 bg-blue-600 text-white text-xs font-bold px-4 py-1.5 rounded-full">
+                    SOLUCIÓN EMPRESARIAL
+                  </span>
+                )}
+
+                <p className="text-xs font-bold tracking-widest text-blue-700">
+                  {plan.tag}
+                </p>
+
+                <h3 className="text-3xl font-bold text-slate-900 mt-4">
+                  {plan.name}
+                </h3>
+
+                <p className="text-slate-500 mt-4 leading-relaxed min-h-20">
+                  {plan.description}
+                </p>
+
+                <div className="mt-8 py-5 border-y border-slate-200">
+                  <p className="text-sm font-semibold text-slate-900">
+                    Modalidad comercial
+                  </p>
+                  <p className="text-sm text-slate-500 mt-2">
+                    {plan.personal
+                      ? 'Suscripción SaaS'
+                      : 'Propuesta según las necesidades de la organización'}
+                  </p>
+                </div>
+
+                <p className="font-semibold text-sm text-slate-900 mt-7 mb-5">
+                  Características contempladas
+                </p>
+
+                <ul className="space-y-4 flex-1">
+                  {plan.features.map(feature => (
+                    <li key={feature} className="flex gap-3 text-sm text-slate-600">
+                      <Check size={18} className="text-blue-600 shrink-0" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  onClick={() => {
+                    if (plan.personal) {
+                      onNavigate('register');
+                    } else {
+                      document.getElementById('faq')?.scrollIntoView({
+                        behavior: 'smooth'
+                      });
+                    }
+                  }}
+                  className={`mt-9 w-full rounded-lg py-3.5 font-semibold transition ${
+                    !plan.personal
+                      ? 'bg-blue-600 text-white hover:bg-blue-500'
+                      : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
+                  }`}
+                >
+                  {plan.action}
+                  <ArrowRight size={16} className="inline ml-2" />
+                </button>
+              </div>
+            </SectionReveal>
+          ))}
         </div>
-      </section>
+
+        <div className="mt-14 bg-[#101a29] text-white rounded-2xl p-8 lg:p-10">
+          <div className="max-w-4xl">
+            <p className="text-blue-400 text-xs font-bold tracking-widest">
+              CONDICIONES COMERCIALES
+            </p>
+
+            <h3 className="text-2xl md:text-3xl font-bold mt-4">
+              Servicios que pueden crecer junto a tu organización.
+            </h3>
+
+            <div className="grid sm:grid-cols-2 gap-7 mt-8">
+              <div>
+                <h4 className="font-semibold">Suscripción SaaS</h4>
+                <p className="text-slate-300 text-sm mt-2 leading-relaxed">
+                  Incluye el alojamiento del sistema como parte del servicio.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold">Licencia independiente</h4>
+                <p className="text-slate-300 text-sm mt-2 leading-relaxed">
+                  Modalidad de adquisición separada del SaaS. El alojamiento
+                  se cotiza por separado.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold">Usuarios adicionales</h4>
+                <p className="text-slate-300 text-sm mt-2 leading-relaxed">
+                  Se puede evaluar un cambio de perfil o contratar usuarios
+                  adicionales.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold">Soporte prioritario</h4>
+                <p className="text-slate-300 text-sm mt-2 leading-relaxed">
+                  Disponible como servicio adicional con cobro mensual.
+                </p>
+              </div>
+            </div>
+
+            <p className="text-slate-400 text-sm mt-8 border-t border-white/10 pt-6">
+              Los valores y condiciones comerciales se determinan según
+              la modalidad, los servicios contratados y las necesidades
+              de cada cliente.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
+
+
 
 // --------------------------------------------------
 // FAQ
 // --------------------------------------------------
 
+
 function FAQ() {
   const [active, setActive] = useState<number | null>(0);
 
   const questions = [
-    ['¿Qué es AMaint?', 'AMaint es una plataforma web de gestión de mantenimiento industrial que permite organizar activos, operaciones y equipos de trabajo.'],
-    ['¿AMaint sirve para distintas empresas?', 'Sí. Su estructura está pensada para adaptarse a organizaciones con distintas plantas, áreas, líneas y equipos.'],
-    ['¿Puedo utilizar AMaint en varias plantas?', 'La gestión de múltiples plantas está contemplada. Su capacidad y condiciones comerciales dependerán del plan contratado y de la cotización corporativa.'],
-    ['¿Qué diferencia existe entre SaaS y licencia?', 'SaaS corresponde al servicio de suscripción con alojamiento incluido. La licencia es una modalidad de adquisición independiente, cuyo alojamiento y servicios se cotizan por separado.'],
-    ['¿Puedo agregar más usuarios?', 'Sí. Según las necesidades de la organización se puede evaluar un cambio de perfil o la contratación de usuarios adicionales.'],
-    ['¿AMaint incluye soporte prioritario?', 'El soporte prioritario se contempla como un servicio adicional mensual.']
+    [
+      '¿Qué es AMaint?',
+      'AMaint es una plataforma web de gestión de mantenimiento industrial que permite organizar activos, operaciones y equipos de trabajo.'
+    ],
+    [
+      '¿AMaint sirve para distintas empresas?',
+      'Sí. Su estructura está pensada para adaptarse a organizaciones con distintas plantas, áreas, líneas y equipos.'
+    ],
+    [
+      '¿Qué diferencia existe entre Personal y Empresarial?',
+      'Personal está orientado a una gestión más sencilla. Empresarial contempla capacidades para organizaciones que necesitan adaptar la plataforma a sus procesos y estructura operacional.'
+    ],
+    [
+      '¿Qué incluye la suscripción SaaS?',
+      'La modalidad SaaS contempla el servicio de suscripción con el alojamiento del sistema incluido.'
+    ],
+    [
+      '¿Puedo adquirir una licencia en lugar de contratar SaaS?',
+      'Sí. AMaint contempla una modalidad de licencia independiente de la suscripción SaaS. En esta modalidad, el alojamiento se cotiza por separado.'
+    ],
+    [
+      '¿Puedo agregar más usuarios?',
+      'Sí. Según las necesidades de la organización se puede evaluar un cambio de perfil o la contratación de usuarios adicionales.'
+    ],
+    [
+      '¿AMaint incluye soporte prioritario?',
+      'El soporte prioritario se contempla como un servicio adicional con cobro mensual.'
+    ],
+    [
+      '¿La implementación tiene un costo adicional?',
+      'Los servicios de implementación se evalúan y cotizan según las necesidades de cada organización.'
+    ]
   ];
 
   return (
-      <section id="faq" className="py-24 bg-white scroll-mt-20">
-        <div className="max-w-4xl mx-auto px-5">
-          <SectionReveal className="text-center mb-14">
-            <CircleHelp className="text-blue-600 mx-auto mb-5" size={34} />
-            <p className="text-blue-700 font-bold text-xs tracking-widest mb-5">
-              PREGUNTAS FRECUENTES
-            </p>
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-900">
-              Resolvamos tus dudas.
-            </h2>
-          </SectionReveal>
+    <section id="faq" className="py-24 bg-white scroll-mt-20">
+      <div className="max-w-4xl mx-auto px-5">
+        <SectionReveal className="text-center mb-14">
+          <CircleHelp className="text-blue-600 mx-auto mb-5" size={34} />
 
-          <div className="space-y-3">
-            {questions.map(([question, answer], i) => (
-                <div key={question} className="border border-slate-200 rounded-xl overflow-hidden">
-                  <button onClick={() => setActive(active === i ? null : i)}
-                          className="w-full flex justify-between items-center gap-5 p-6 text-left hover:bg-slate-50 transition">
-                    <span className="font-semibold text-slate-900">{question}</span>
-                    <ChevronDown className={`shrink-0 text-blue-600 transition-transform ${active === i ? 'rotate-180' : ''}`} />
-                  </button>
-                  {active === i && (
-                      <div className="px-6 pb-6 text-slate-600 leading-relaxed">
-                        {answer}
-                      </div>
-                  )}
+          <p className="text-blue-700 font-bold text-xs tracking-widest mb-5">
+            PREGUNTAS FRECUENTES
+          </p>
+
+          <h2 className="text-3xl md:text-5xl font-bold text-slate-900">
+            Resolvamos tus dudas.
+          </h2>
+        </SectionReveal>
+
+        <div className="space-y-3">
+          {questions.map(([question, answer], i) => (
+            <div
+              key={question}
+              className="border border-slate-200 rounded-xl overflow-hidden"
+            >
+              <button
+                onClick={() => setActive(active === i ? null : i)}
+                className="w-full flex justify-between items-center gap-5 p-6 text-left hover:bg-slate-50 transition"
+              >
+                <span className="font-semibold text-slate-900">
+                  {question}
+                </span>
+
+                <ChevronDown
+                  className={`shrink-0 text-blue-600 transition-transform ${
+                    active === i ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+
+              {active === i && (
+                <div className="px-6 pb-6 text-slate-600 leading-relaxed">
+                  {answer}
                 </div>
-            ))}
-          </div>
+              )}
+            </div>
+          ))}
         </div>
-      </section>
+      </div>
+    </section>
   );
 }
+
 
 // --------------------------------------------------
 // FOOTER
@@ -876,110 +975,116 @@ const MainContent: React.FC = () => {
 // --------------------------------------------------
 
 
+
 function AuthScreen({ mode, onNavigate }: {
   mode: 'login' | 'register';
   onNavigate: (screen: Screen) => void;
 }) {
   const isLogin = mode === 'login';
 
+  const inputClass =
+    'w-full bg-slate-100 text-slate-900 placeholder:text-slate-500 border border-slate-300 rounded-lg p-3 mb-5 outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition';
+
   return (
-      <div className="min-h-screen bg-[#101a29] flex items-center justify-center p-5">
-        <div className="absolute top-0 left-0 w-full p-6">
-          <button
-              onClick={() => onNavigate('home')}
-              className="text-white text-2xl font-bold"
-          >
-            AMaint<span className="text-blue-400">.</span>
-          </button>
+    <div className="min-h-screen bg-[#101a29] flex items-center justify-center p-5">
+      <div className="absolute top-0 left-0 w-full p-6">
+        <button
+          onClick={() => onNavigate('home')}
+          className="text-white text-2xl font-bold"
+        >
+          AMaint<span className="text-blue-400">.</span>
+        </button>
+      </div>
+
+      <div className="w-full max-w-md bg-white rounded-2xl p-8 md:p-10 shadow-2xl">
+        <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center mb-7">
+          {isLogin ? <Lock /> : <User />}
         </div>
 
-        <div className="w-full max-w-md bg-white rounded-2xl p-8 md:p-10 shadow-2xl">
-          <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center mb-7">
-            {isLogin ? <Lock /> : <User />}
-          </div>
+        <h1 className="text-3xl font-bold text-slate-900">
+          {isLogin ? 'Bienvenido de nuevo' : 'Crear una cuenta'}
+        </h1>
 
-          <h1 className="text-3xl font-bold text-slate-900">
-            {isLogin ? 'Bienvenido de nuevo' : 'Crear una cuenta'}
-          </h1>
+        <p className="text-slate-600 mt-3 mb-8">
+          {isLogin
+            ? 'Ingresa a tu espacio de trabajo AMaint.'
+            : 'Comienza a organizar el mantenimiento de tu empresa.'}
+        </p>
 
-          <p className="text-slate-600 mt-3 mb-8">
-            {isLogin
-                ? 'Ingresa a tu espacio de trabajo AMaint.'
-                : 'Comienza a organizar el mantenimiento de tu empresa.'}
-          </p>
-
-          <form onSubmit={e => {
+        <form
+          onSubmit={e => {
             e.preventDefault();
             alert('Autenticación pendiente de conexión.');
-          }}>
-            {!isLogin && (
-                <>
-                  <label className="block text-sm font-medium text-slate-800 mb-2">
-                    Nombre
-                  </label>
-                  <input
-                      required
-                      className="w-full bg-white text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded-lg p-3 mb-5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
-                      placeholder="Tu nombre"
-                  />
-
-                  <label className="block text-sm font-medium text-slate-800 mb-2">
-                    Empresa
-                  </label>
-                  <input
-                      required
-                      className="w-full bg-white text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded-lg p-3 mb-5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
-                      placeholder="Nombre de tu empresa"
-                  />
-                </>
-            )}
-
-            <label className="block text-sm font-medium text-slate-800 mb-2">
-              Correo electrónico
-            </label>
-            <input
+          }}
+        >
+          {!isLogin && (
+            <>
+              <label className="block text-sm font-medium text-slate-800 mb-2">
+                Nombre
+              </label>
+              <input
                 required
-                type="email"
-                className="w-full bg-white text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded-lg p-3 mb-5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
-                placeholder="correo@empresa.com"
-            />
+                className={inputClass}
+                placeholder="Tu nombre"
+              />
 
-            <label className="block text-sm font-medium text-slate-800 mb-2">
-              Contraseña
-            </label>
-            <input
+              <label className="block text-sm font-medium text-slate-800 mb-2">
+                Empresa
+              </label>
+              <input
                 required
-                type="password"
-                className="w-full bg-white text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded-lg p-3 mb-5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
-                placeholder="Tu contraseña"
-            />
+                className={inputClass}
+                placeholder="Nombre de tu empresa"
+              />
+            </>
+          )}
 
-            <button
-                type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg p-3 transition"
-            >
-              {isLogin ? 'Iniciar sesión' : 'Crear cuenta'}
-            </button>
-          </form>
+          <label className="block text-sm font-medium text-slate-800 mb-2">
+            Correo electrónico
+          </label>
+          <input
+            required
+            type="email"
+            className={inputClass}
+            placeholder="correo@empresa.com"
+          />
 
-          <p className="text-center text-sm text-slate-600 mt-7">
-            {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}
-            <button
-                onClick={() => onNavigate(isLogin ? 'register' : 'login')}
-                className="text-blue-700 font-semibold ml-2"
-            >
-              {isLogin ? 'Crear cuenta' : 'Iniciar sesión'}
-            </button>
-          </p>
+          <label className="block text-sm font-medium text-slate-800 mb-2">
+            Contraseña
+          </label>
+          <input
+            required
+            type="password"
+            className={`${inputClass} mb-7`}
+            placeholder="Tu contraseña"
+          />
 
           <button
-              onClick={() => onNavigate('home')}
-              className="block mx-auto mt-7 text-sm text-slate-500 hover:text-slate-800"
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg p-3 transition"
           >
-            Volver al sitio público
+            {isLogin ? 'Iniciar sesión' : 'Crear cuenta'}
           </button>
-        </div>
+        </form>
+
+        <p className="text-center text-sm text-slate-600 mt-7">
+          {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}
+          <button
+            onClick={() => onNavigate(isLogin ? 'register' : 'login')}
+            className="text-blue-700 font-semibold ml-2"
+          >
+            {isLogin ? 'Crear cuenta' : 'Iniciar sesión'}
+          </button>
+        </p>
+
+        <button
+          onClick={() => onNavigate('home')}
+          className="block mx-auto mt-7 text-sm text-slate-500 hover:text-slate-800"
+        >
+          Volver al sitio público
+        </button>
       </div>
+    </div>
   );
 }
 
