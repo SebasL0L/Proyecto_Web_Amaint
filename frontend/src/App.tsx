@@ -875,6 +875,7 @@ const MainContent: React.FC = () => {
 // LOGIN Y REGISTRO VISUALES
 // --------------------------------------------------
 
+
 function AuthScreen({ mode, onNavigate }: {
   mode: 'login' | 'register';
   onNavigate: (screen: Screen) => void;
@@ -884,8 +885,10 @@ function AuthScreen({ mode, onNavigate }: {
   return (
       <div className="min-h-screen bg-[#101a29] flex items-center justify-center p-5">
         <div className="absolute top-0 left-0 w-full p-6">
-          <button onClick={() => onNavigate('home')}
-                  className="text-white text-2xl font-bold">
+          <button
+              onClick={() => onNavigate('home')}
+              className="text-white text-2xl font-bold"
+          >
             AMaint<span className="text-blue-400">.</span>
           </button>
         </div>
@@ -898,7 +901,8 @@ function AuthScreen({ mode, onNavigate }: {
           <h1 className="text-3xl font-bold text-slate-900">
             {isLogin ? 'Bienvenido de nuevo' : 'Crear una cuenta'}
           </h1>
-          <p className="text-slate-500 mt-3 mb-8">
+
+          <p className="text-slate-600 mt-3 mb-8">
             {isLogin
                 ? 'Ingresa a tu espacio de trabajo AMaint.'
                 : 'Comienza a organizar el mantenimiento de tu empresa.'}
@@ -906,48 +910,79 @@ function AuthScreen({ mode, onNavigate }: {
 
           <form onSubmit={e => {
             e.preventDefault();
-            alert('Esta es una demostración visual. La autenticación real se implementará posteriormente.');
+            alert('Autenticación pendiente de conexión.');
           }}>
             {!isLogin && (
                 <>
-                  <label className="block text-sm font-medium mb-2">Nombre</label>
-                  <input required className="w-full border border-slate-300 rounded-lg p-3 mb-5 outline-none focus:border-blue-500"
-                         placeholder="Tu nombre" />
-                  <label className="block text-sm font-medium mb-2">Empresa</label>
-                  <input required className="w-full border border-slate-300 rounded-lg p-3 mb-5 outline-none focus:border-blue-500"
-                         placeholder="Nombre de tu empresa" />
+                  <label className="block text-sm font-medium text-slate-800 mb-2">
+                    Nombre
+                  </label>
+                  <input
+                      required
+                      className="w-full bg-white text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded-lg p-3 mb-5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
+                      placeholder="Tu nombre"
+                  />
+
+                  <label className="block text-sm font-medium text-slate-800 mb-2">
+                    Empresa
+                  </label>
+                  <input
+                      required
+                      className="w-full bg-white text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded-lg p-3 mb-5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
+                      placeholder="Nombre de tu empresa"
+                  />
                 </>
             )}
 
-            <label className="block text-sm font-medium mb-2">Correo electrónico</label>
-            <input required type="email" className="w-full border border-slate-300 rounded-lg p-3 mb-5 outline-none focus:border-blue-500"
-                   placeholder="correo@empresa.com" />
+            <label className="block text-sm font-medium text-slate-800 mb-2">
+              Correo electrónico
+            </label>
+            <input
+                required
+                type="email"
+                className="w-full bg-white text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded-lg p-3 mb-5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
+                placeholder="correo@empresa.com"
+            />
 
-            <label className="block text-sm font-medium mb-2">Contraseña</label>
-            <input required type="password" className="w-full border border-slate-300 rounded-lg p-3 mb-7 outline-none focus:border-blue-500"
-                   placeholder="Tu contraseña" />
+            <label className="block text-sm font-medium text-slate-800 mb-2">
+              Contraseña
+            </label>
+            <input
+                required
+                type="password"
+                className="w-full bg-white text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded-lg p-3 mb-5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
+                placeholder="Tu contraseña"
+            />
 
-            <button className="w-full bg-blue-600 hover:bg-blue-500 text-white rounded-lg py-4 font-semibold transition">
+            <button
+                type="submit"
+                className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg p-3 transition"
+            >
               {isLogin ? 'Iniciar sesión' : 'Crear cuenta'}
             </button>
           </form>
 
-          <p className="text-center text-sm text-slate-500 mt-7">
+          <p className="text-center text-sm text-slate-600 mt-7">
             {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}
-            <button onClick={() => onNavigate(isLogin ? 'register' : 'login')}
-                    className="text-blue-700 font-semibold ml-2">
+            <button
+                onClick={() => onNavigate(isLogin ? 'register' : 'login')}
+                className="text-blue-700 font-semibold ml-2"
+            >
               {isLogin ? 'Crear cuenta' : 'Iniciar sesión'}
             </button>
           </p>
 
-          <button onClick={() => onNavigate('home')}
-                  className="block mx-auto mt-7 text-sm text-slate-400 hover:text-slate-700">
+          <button
+              onClick={() => onNavigate('home')}
+              className="block mx-auto mt-7 text-sm text-slate-500 hover:text-slate-800"
+          >
             Volver al sitio público
           </button>
         </div>
       </div>
   );
 }
+
 
 // --------------------------------------------------
 // PANEL DE CUENTA
