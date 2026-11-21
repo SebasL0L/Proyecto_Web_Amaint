@@ -1170,7 +1170,7 @@ function AccountDashboard({ onNavigate, session }: PublicProps & { session: Sess
                         </button>
                     ))}
                     <div className="border-t border-slate-200 my-2" />
-                    <button onClick={() => void logoutUser()}
+                    <button onClick={() => void onLogout()}
                             className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 text-sm text-left text-red-600">
                       <LogOut size={18} /> Cerrar sesión
                     </button>
