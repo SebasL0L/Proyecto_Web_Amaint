@@ -24,7 +24,7 @@ import { BodegaRepuestosView } from './components/modules/BodegaRepuestosView';
 import { SincronizacionLogsView } from './components/modules/SincronizacionLogsView';
 import { KpisConfiabilidadView } from './components/modules/KpisConfiabilidadView';
 import { CostosDisponibilidadView } from './components/modules/CostosDisponibilidadView';
-
+import { loginUser, registerUser } from './lib/auth';
 // --------------------------------------------------
 // TIPOS
 // --------------------------------------------------
@@ -976,118 +976,151 @@ const MainContent: React.FC = () => {
 
 
 
+
+
 function AuthScreen({ mode, onNavigate }: {
   mode: 'login' | 'register';
   onNavigate: (screen: Screen) => void;
 }) {
   const isLogin = mode === 'login';
 
+  const [name, setName] = useState('');
+  const [company, setCompany] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+
   const inputClass =
-    'w-full bg-slate-100 text-slate-900 placeholder:text-slate-500 border border-slate-300 rounded-lg p-3 mb-5 outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition';
+      'w-full bg-slate-100 text-slate-900 placeholder:text-slate-500 border border-slate-300 rounded-lg p-3 mb-5 outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition';
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage('');
+
+    try {
+      if (isLogin) {
+        await loginUser(email, password);
+        onNavigate('dashboard');
+      } else {
+        const result = await registerUser(
+            name,
+            company,
+            email,
+            password
+        );
+
+        if (result.session) {
+          onNavigate('dashboard');
+        } else {
+          setMessage(
+              'Cuenta creada. Revisa tu correo para confirmar el registro antes de iniciar sesión.'
+          );
+        }
+      }
+    } catch (error) {
+      setMessage(
+          error instanceof Error
+              ? error.message
+              : 'No se pudo completar la operación.'
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-[#101a29] flex items-center justify-center p-5">
-      <div className="absolute top-0 left-0 w-full p-6">
-        <button
-          onClick={() => onNavigate('home')}
-          className="text-white text-2xl font-bold"
-        >
-          AMaint<span className="text-blue-400">.</span>
-        </button>
-      </div>
-
-      <div className="w-full max-w-md bg-white rounded-2xl p-8 md:p-10 shadow-2xl">
-        <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center mb-7">
-          {isLogin ? <Lock /> : <User />}
+      <div className="min-h-screen bg-[#101a29] flex items-center justify-center p-5">
+        <div className="absolute top-0 left-0 w-full p-6">
+          <button onClick={() => onNavigate('home')}
+                  className="text-white text-2xl font-bold">
+            AMaint<span className="text-blue-400">.</span>
+          </button>
         </div>
 
-        <h1 className="text-3xl font-bold text-slate-900">
-          {isLogin ? 'Bienvenido de nuevo' : 'Crear una cuenta'}
-        </h1>
+        <div className="w-full max-w-md bg-white rounded-2xl p-8 md:p-10 shadow-2xl">
+          <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center mb-7">
+            {isLogin ? <Lock /> : <User />}
+          </div>
 
-        <p className="text-slate-600 mt-3 mb-8">
-          {isLogin
-            ? 'Ingresa a tu espacio de trabajo AMaint.'
-            : 'Comienza a organizar el mantenimiento de tu empresa.'}
-        </p>
+          <h1 className="text-3xl font-bold text-slate-900">
+            {isLogin ? 'Bienvenido de nuevo' : 'Crear una cuenta'}
+          </h1>
 
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            alert('Autenticación pendiente de conexión.');
-          }}
-        >
-          {!isLogin && (
-            <>
-              <label className="block text-sm font-medium text-slate-800 mb-2">
-                Nombre
-              </label>
-              <input
-                required
-                className={inputClass}
-                placeholder="Tu nombre"
-              />
+          <p className="text-slate-600 mt-3 mb-8">
+            {isLogin
+                ? 'Ingresa a tu espacio de trabajo AMaint.'
+                : 'Comienza a organizar el mantenimiento de tu empresa.'}
+          </p>
 
-              <label className="block text-sm font-medium text-slate-800 mb-2">
-                Empresa
-              </label>
-              <input
-                required
-                className={inputClass}
-                placeholder="Nombre de tu empresa"
-              />
-            </>
-          )}
+          <form onSubmit={handleSubmit}>
+            {!isLogin && (
+                <>
+                  <label className="block text-sm font-medium text-slate-800 mb-2">
+                    Nombre
+                  </label>
+                  <input required value={name}
+                         onChange={e => setName(e.target.value)}
+                         className={inputClass} placeholder="Tu nombre" />
 
-          <label className="block text-sm font-medium text-slate-800 mb-2">
-            Correo electrónico
-          </label>
-          <input
-            required
-            type="email"
-            className={inputClass}
-            placeholder="correo@empresa.com"
-          />
+                  <label className="block text-sm font-medium text-slate-800 mb-2">
+                    Empresa
+                  </label>
+                  <input required value={company}
+                         onChange={e => setCompany(e.target.value)}
+                         className={inputClass}
+                         placeholder="Nombre de tu empresa" />
+                </>
+            )}
 
-          <label className="block text-sm font-medium text-slate-800 mb-2">
-            Contraseña
-          </label>
-          <input
-            required
-            type="password"
-            className={`${inputClass} mb-7`}
-            placeholder="Tu contraseña"
-          />
+            <label className="block text-sm font-medium text-slate-800 mb-2">
+              Correo electrónico
+            </label>
+            <input required type="email" value={email}
+                   onChange={e => setEmail(e.target.value)}
+                   className={inputClass} placeholder="correo@empresa.com" />
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg p-3 transition"
-          >
-            {isLogin ? 'Iniciar sesión' : 'Crear cuenta'}
+            <label className="block text-sm font-medium text-slate-800 mb-2">
+              Contraseña
+            </label>
+            <input required type="password" minLength={6}
+                   value={password}
+                   onChange={e => setPassword(e.target.value)}
+                   className={`${inputClass} mb-7`}
+                   placeholder="Mínimo 6 caracteres" />
+
+            {message && (
+                <p role="alert" className="text-sm text-red-600 mb-5 break-words">
+                  {message}
+                </p>
+            )}
+
+            <button type="submit" disabled={loading}
+                    className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-semibold rounded-lg p-3 transition">
+              {loading
+                  ? 'Procesando...'
+                  : isLogin ? 'Iniciar sesión' : 'Crear cuenta'}
+            </button>
+          </form>
+
+          <p className="text-center text-sm text-slate-600 mt-7">
+            {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}
+            <button
+                onClick={() => onNavigate(isLogin ? 'register' : 'login')}
+                className="text-blue-700 font-semibold ml-2">
+              {isLogin ? 'Crear cuenta' : 'Iniciar sesión'}
+            </button>
+          </p>
+
+          <button onClick={() => onNavigate('home')}
+                  className="block mx-auto mt-7 text-sm text-slate-500 hover:text-slate-800">
+            Volver al sitio público
           </button>
-        </form>
-
-        <p className="text-center text-sm text-slate-600 mt-7">
-          {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}
-          <button
-            onClick={() => onNavigate(isLogin ? 'register' : 'login')}
-            className="text-blue-700 font-semibold ml-2"
-          >
-            {isLogin ? 'Crear cuenta' : 'Iniciar sesión'}
-          </button>
-        </p>
-
-        <button
-          onClick={() => onNavigate('home')}
-          className="block mx-auto mt-7 text-sm text-slate-500 hover:text-slate-800"
-        >
-          Volver al sitio público
-        </button>
+        </div>
       </div>
-    </div>
   );
 }
-
 
 // --------------------------------------------------
 // PANEL DE CUENTA
