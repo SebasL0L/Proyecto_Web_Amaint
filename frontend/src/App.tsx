@@ -24,7 +24,9 @@ import { BodegaRepuestosView } from './components/modules/BodegaRepuestosView';
 import { SincronizacionLogsView } from './components/modules/SincronizacionLogsView';
 import { KpisConfiabilidadView } from './components/modules/KpisConfiabilidadView';
 import { CostosDisponibilidadView } from './components/modules/CostosDisponibilidadView';
-import { loginUser, registerUser } from './lib/auth';
+import { loginUser, registerUser, logoutUser } from './lib/auth';
+import { supabase } from './lib/supabase';
+import type { Session } from '@supabase/supabase-js';
 // --------------------------------------------------
 // TIPOS
 // --------------------------------------------------
@@ -1126,8 +1128,10 @@ function AuthScreen({ mode, onNavigate }: {
 // PANEL DE CUENTA
 // --------------------------------------------------
 
-function AccountDashboard({ onNavigate }: PublicProps) {
+function AccountDashboard({ onNavigate, session }: PublicProps & { session: Session; onLogout: () => Promise<void> }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const userName = session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Usuario';
+  const userEmail = session.user.email || '';
 
   const options = [
     [User, 'Mi cuenta', 'account'],
@@ -1151,8 +1155,8 @@ function AccountDashboard({ onNavigate }: PublicProps) {
                   <User size={19} />
                 </div>
                 <div className="hidden sm:block text-left">
-                  <p className="text-sm font-semibold">Mi espacio AMaint</p>
-                  <p className="text-xs text-slate-500">Cuenta de usuario</p>
+                  <p className="text-sm font-semibold">{userName}</p>
+                  <p className="text-xs text-slate-500">{userEmail}</p>
                 </div>
                 <ChevronDown size={17} />
               </button>
@@ -1166,7 +1170,7 @@ function AccountDashboard({ onNavigate }: PublicProps) {
                         </button>
                     ))}
                     <div className="border-t border-slate-200 my-2" />
-                    <button onClick={() => onNavigate('home')}
+                    <button onClick={() => void onLogout()}
                             className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 text-sm text-left text-red-600">
                       <LogOut size={18} /> Cerrar sesión
                     </button>
@@ -1181,7 +1185,7 @@ function AccountDashboard({ onNavigate }: PublicProps) {
             ESPACIO PERSONAL
           </p>
           <h1 className="text-3xl md:text-4xl font-bold mt-3">
-            ¡Bienvenido a AMaint!
+            ¡Hola, {userName}!
           </h1>
           <p className="text-slate-500 mt-3">
             Desde aquí puedes administrar tu cuenta y acceder a tus servicios.
@@ -1215,9 +1219,10 @@ function AccountDashboard({ onNavigate }: PublicProps) {
 // VISTA DE CUENTA Y SUSCRIPCIÓN
 // --------------------------------------------------
 
-function SimpleAccountView({ mode, onNavigate }: {
+function SimpleAccountView({ mode, onNavigate, session }: {
   mode: 'account' | 'subscription';
   onNavigate: (screen: Screen) => void;
+  session: Session;
 }) {
   const isAccount = mode === 'account';
 
@@ -1250,10 +1255,12 @@ function SimpleAccountView({ mode, onNavigate }: {
                 <>
                   <User className="text-blue-600" size={28} />
                   <h2 className="text-xl font-bold mt-5">Información personal</h2>
-                  <p className="text-slate-500 mt-3">
-                    Los datos de perfil estarán disponibles cuando conectemos
-                    la autenticación con el backend.
-                  </p>
+                  <div className="mt-4 space-y-3 text-sm">
+                    <p><span className="font-semibold text-slate-700">Nombre:</span> {session.user.user_metadata?.full_name || 'Sin nombre registrado'}</p>
+                    <p><span className="font-semibold text-slate-700">Correo:</span> {session.user.email || 'No disponible'}</p>
+                    <p><span className="font-semibold text-slate-700">ID de usuario:</span> <span className="font-mono text-xs break-all">{session.user.id}</span></p>
+                    <p className="text-xs text-slate-500">Identidad administrada por Supabase Auth.</p>
+                  </div>
                 </>
             ) : (
                 <>
@@ -1281,8 +1288,34 @@ function SimpleAccountView({ mode, onNavigate }: {
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>('home');
+  const [session, setSession] = useState<Session | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
 
-  if (screen === 'application') {
+  useEffect(() => {
+    let active = true;
+    supabase.auth.getSession().then(({ data, error }) => {
+      if (!active) return;
+      if (error) console.error('No se pudo recuperar la sesión:', error.message);
+      setSession(data.session);
+      setAuthLoading(false);
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      setSession(nextSession);
+      setAuthLoading(false);
+      if (!nextSession) setScreen(current => ['dashboard', 'account', 'subscription', 'application'].includes(current) ? 'home' : current);
+      else setScreen(current => ['login', 'register', 'home'].includes(current) ? 'dashboard' : current);
+    });
+    return () => { active = false; subscription.unsubscribe(); };
+  }, []);
+
+  const protectedScreens: Screen[] = ['dashboard', 'account', 'subscription', 'application'];
+  useEffect(() => {
+    if (!authLoading && protectedScreens.includes(screen) && !session) setScreen('login');
+  }, [authLoading, screen, session]);
+
+  if (authLoading) return <div className="min-h-screen bg-[#101a29] text-white flex items-center justify-center">Cargando sesión AMaint...</div>;
+
+  if (screen === 'application' && session) {
     return (
         <AppProvider>
           <div className="min-h-screen">
@@ -1307,12 +1340,12 @@ export default function App() {
     return <AuthScreen mode={screen} onNavigate={setScreen} />;
   }
 
-  if (screen === 'dashboard') {
-    return <AccountDashboard onNavigate={setScreen} />;
+  if (screen === 'dashboard' && session) {
+    return <AccountDashboard onNavigate={setScreen} session={session} onLogout={logoutUser} />;
   }
 
-  if (screen === 'account' || screen === 'subscription') {
-    return <SimpleAccountView mode={screen} onNavigate={setScreen} />;
+  if ((screen === 'account' || screen === 'subscription') && session) {
+    return <SimpleAccountView mode={screen} onNavigate={setScreen} session={session} />;
   }
 
   return <PublicLanding onNavigate={setScreen} />;
