@@ -1219,9 +1219,10 @@ function AccountDashboard({ onNavigate, session }: PublicProps & { session: Sess
 // VISTA DE CUENTA Y SUSCRIPCIÓN
 // --------------------------------------------------
 
-function SimpleAccountView({ mode, onNavigate }: {
+function SimpleAccountView({ mode, onNavigate, session }: {
   mode: 'account' | 'subscription';
   onNavigate: (screen: Screen) => void;
+  session: Session;
 }) {
   const isAccount = mode === 'account';
 
@@ -1254,10 +1255,12 @@ function SimpleAccountView({ mode, onNavigate }: {
                 <>
                   <User className="text-blue-600" size={28} />
                   <h2 className="text-xl font-bold mt-5">Información personal</h2>
-                  <p className="text-slate-500 mt-3">
-                    Los datos de perfil estarán disponibles cuando conectemos
-                    la autenticación con el backend.
-                  </p>
+                  <div className="mt-4 space-y-3 text-sm">
+                    <p><span className="font-semibold text-slate-700">Nombre:</span> {session.user.user_metadata?.full_name || 'Sin nombre registrado'}</p>
+                    <p><span className="font-semibold text-slate-700">Correo:</span> {session.user.email || 'No disponible'}</p>
+                    <p><span className="font-semibold text-slate-700">ID de usuario:</span> <span className="font-mono text-xs break-all">{session.user.id}</span></p>
+                    <p className="text-xs text-slate-500">Identidad administrada por Supabase Auth.</p>
+                  </div>
                 </>
             ) : (
                 <>
@@ -1342,7 +1345,7 @@ export default function App() {
   }
 
   if ((screen === 'account' || screen === 'subscription') && session) {
-    return <SimpleAccountView mode={screen} onNavigate={setScreen} />;
+    return <SimpleAccountView mode={screen} onNavigate={setScreen} session={session} />;
   }
 
   return <PublicLanding onNavigate={setScreen} />;
