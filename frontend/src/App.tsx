@@ -1006,9 +1006,9 @@ function AuthScreen({ mode, onNavigate }: {
       } else {
         const result = await registerUser(
             name,
-            company,
             email,
-            password
+            password,
+            company
         );
 
         if (result.session) {

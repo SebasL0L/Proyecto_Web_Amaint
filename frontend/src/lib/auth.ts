@@ -3,9 +3,9 @@ import { supabase } from './supabase';
 
 export async function registerUser(
     name: string,
-    company: string,
     email: string,
-    password: string
+    password: string,
+    company: string
 ) {
     const { data, error } = await supabase.auth.signUp({
         email,
@@ -26,10 +26,11 @@ export async function loginUser(
     email: string,
     password: string
 ) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-    });
+    const { data, error } =
+        await supabase.auth.signInWithPassword({
+            email,
+            password
+        });
 
     if (error) throw error;
     return data;
@@ -42,7 +43,8 @@ export async function logoutUser() {
 }
 
 export async function getCurrentSession() {
-    const { data, error } = await supabase.auth.getSession();
+    const { data, error } =
+        await supabase.auth.getSession();
 
     if (error) throw error;
     return data.session;
