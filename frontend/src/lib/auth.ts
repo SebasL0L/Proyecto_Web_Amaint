@@ -1,4 +1,3 @@
-
 import { supabase } from './supabase';
 
 export async function registerUser(
@@ -11,6 +10,7 @@ export async function registerUser(
         email,
         password,
         options: {
+            emailRedirectTo: `${window.location.origin}/?auth=confirmed`,
             data: {
                 full_name: name,
                 company_name: company
