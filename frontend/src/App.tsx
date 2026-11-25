@@ -1409,6 +1409,11 @@ function SimpleAccountView({ mode, onNavigate, session }: {
 // APP PRINCIPAL
 // --------------------------------------------------
 
+
+// --------------------------------------------------
+// APP PRINCIPAL
+// --------------------------------------------------
+
 export default function App() {
   const [screen, setScreen] = useState<Screen>('home');
   const [session, setSession] = useState<Session | null>(null);
@@ -1417,47 +1422,21 @@ export default function App() {
   useEffect(() => {
     let active = true;
 
-    const initializeAuth = async () => {
-      const confirmed =
-          new URLSearchParams(window.location.search)
-              .get('auth') === 'confirmed';
+    const confirmed =
+        new URLSearchParams(window.location.search)
+            .get('auth') === 'confirmed';
 
-      const { data, error } = await supabase.auth.getSession();
+    // Evita que los eventos de autenticación
+    // interfieran con la confirmación del correo.
+    let processingConfirmation = confirmed;
 
-      if (!active) return;
-
-      if (error) {
-        console.error('No se pudo recuperar la sesión:', error.message);
-      }
-
-      if (confirmed) {
-        if (data.session) {
-          await supabase.auth.signOut();
-        }
-
-        if (!active) return;
-
-        window.history.replaceState(
-            {},
-            document.title,
-            window.location.pathname
-        );
-
-        setSession(null);
-        setScreen('login');
-        setAuthLoading(false);
-        return;
-      }
-
-      setSession(data.session);
-      setAuthLoading(false);
-    };
-
-    initializeAuth();
-
+    // Primero escuchamos los cambios de autenticación.
     const {
       data: { subscription }
     } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+
+      if (!active || processingConfirmation) return;
+
       setSession(nextSession);
       setAuthLoading(false);
 
@@ -1476,19 +1455,106 @@ export default function App() {
       }
     });
 
+    const initializeAuth = async () => {
+      try {
+        const { data, error } = await supabase.auth.getSession();
+
+        if (!active) return;
+
+        if (error) {
+          throw error;
+        }
+
+        // El usuario acaba de regresar de confirmar
+        // su correo electrónico.
+        if (confirmed) {
+
+          if (data.session) {
+            const { error: logoutError } =
+                await supabase.auth.signOut();
+
+            if (logoutError) {
+              console.error(
+                  'Error al cerrar la sesión después de confirmar:',
+                  logoutError.message
+              );
+            }
+          }
+
+          if (!active) return;
+
+          // Limpiamos el parámetro de confirmación de la URL.
+          window.history.replaceState(
+              {},
+              document.title,
+              window.location.pathname
+          );
+
+          setSession(null);
+          setScreen('login');
+          setAuthLoading(false);
+
+          processingConfirmation = false;
+          return;
+        }
+
+        // Recuperamos la sesión existente.
+        setSession(data.session);
+
+      } catch (error) {
+        console.error(
+            'Error al inicializar la autenticación:',
+            error
+        );
+
+        if (active) {
+          setSession(null);
+        }
+      } finally {
+        if (active) {
+          setAuthLoading(false);
+          processingConfirmation = false;
+        }
+      }
+    };
+
+    void initializeAuth();
+
     return () => {
       active = false;
       subscription.unsubscribe();
     };
+
   }, []);
-  const protectedScreens: Screen[] = ['dashboard', 'account', 'subscription', 'application'];
+
+  // Pantallas que requieren una sesión activa.
+  const protectedScreens: Screen[] = [
+    'dashboard',
+    'account',
+    'subscription',
+    'application'
+  ];
+
   useEffect(() => {
-    if (!authLoading && protectedScreens.includes(screen) && !session) setScreen('login');
+    if (
+        !authLoading &&
+        protectedScreens.includes(screen) &&
+        !session
+    ) {
+      setScreen('login');
+    }
   }, [authLoading, screen, session]);
 
-  if (authLoading) return <div className="min-h-screen bg-[#101a29] text-white flex items-center justify-center">Cargando sesión AMaint...</div>;
+  // Pantalla de carga.
+  if (authLoading) {
+    return (
+        <div className="min-h-screen bg-[#101a29] text-white flex items-center justify-center">
+          Cargando sesión AMaint...
+        </div>
+    );
+  }
 
-
+  // Aplicación de mantenimiento.
   if (screen === 'application' && session) {
     return (
         <AppProvider>
@@ -1503,7 +1569,9 @@ export default function App() {
 
                 <div>
                   <p className="font-bold">AMaint.</p>
-                  <p className="text-xs text-blue-100">Mi App AMaint</p>
+                  <p className="text-xs text-blue-100">
+                    Mi App AMaint
+                  </p>
                 </div>
               </div>
 
@@ -1523,22 +1591,46 @@ export default function App() {
     );
   }
 
-
+  // Página pública.
   if (screen === 'home') {
     return <PublicLanding onNavigate={setScreen} />;
   }
 
+  // Login y registro.
   if (screen === 'login' || screen === 'register') {
-    return <AuthScreen mode={screen} onNavigate={setScreen} />;
+    return (
+        <AuthScreen
+            mode={screen}
+            onNavigate={setScreen}
+        />
+    );
   }
 
+  // Panel de usuario.
   if (screen === 'dashboard' && session) {
-    return <AccountDashboard onNavigate={setScreen} session={session} onLogout={logoutUser} />;
+    return (
+        <AccountDashboard
+            onNavigate={setScreen}
+            session={session}
+            onLogout={logoutUser}
+        />
+    );
   }
 
-  if ((screen === 'account' || screen === 'subscription') && session) {
-    return <SimpleAccountView mode={screen} onNavigate={setScreen} session={session} />;
+  // Cuenta y suscripciones.
+  if (
+      (screen === 'account' || screen === 'subscription') &&
+      session
+  ) {
+    return (
+        <SimpleAccountView
+            mode={screen}
+            onNavigate={setScreen}
+            session={session}
+        />
+    );
   }
 
   return <PublicLanding onNavigate={setScreen} />;
 }
+
