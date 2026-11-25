@@ -11,6 +11,7 @@ export async function registerUser(
         email,
         password,
         options: {
+            emailRedirectTo: `${window.location.origin}/?auth=confirmed`,
             data: {
                 full_name: name,
                 company_name: company
@@ -26,11 +27,10 @@ export async function loginUser(
     email: string,
     password: string
 ) {
-    const { data, error } =
-        await supabase.auth.signInWithPassword({
-            email,
-            password
-        });
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+    });
 
     if (error) throw error;
     return data;
@@ -43,8 +43,7 @@ export async function logoutUser() {
 }
 
 export async function getCurrentSession() {
-    const { data, error } =
-        await supabase.auth.getSession();
+    const { data, error } = await supabase.auth.getSession();
 
     if (error) throw error;
     return data.session;

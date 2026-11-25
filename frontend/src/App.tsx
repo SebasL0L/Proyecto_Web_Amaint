@@ -133,7 +133,7 @@ function Navbar({ onNavigate }: PublicProps) {
   };
 
   return (
-      <header className="fixed top-0 inset-x-0 z-50 bg-[#101a29]/90 backdrop-blur-xl border-b border-white/10">
+      <header className="fixed top-0 inset-x-0 z-50 bg-gradient-to-r from-[#155eef] to-[#087eaa] backdrop-blur-xl border-b border-white/10 shadow-lg shadow-blue-950/10">
         <div className="max-w-7xl mx-auto px-5 lg:px-8 h-[76px] flex items-center justify-between">
 
           {/* LOGO */}
@@ -271,50 +271,71 @@ function Navbar({ onNavigate }: PublicProps) {
 
 function Hero({ onNavigate }: PublicProps) {
   return (
-      <section id="inicio" className="relative bg-[#101a29] text-white pt-36 pb-24 lg:pt-44 lg:pb-32 overflow-hidden scroll-mt-20">
-        <div className="absolute inset-0 opacity-20"
-             style={{
-               backgroundImage: 'radial-gradient(#6480a5 1px, transparent 1px)',
-               backgroundSize: '35px 35px'
-             }} />
+      <section
+          id="inicio"
+          className="relative bg-[#101a29] text-white pt-36 pb-24 lg:pt-44 lg:pb-32 overflow-hidden scroll-mt-20"
+      >
+        <div
+            className="absolute inset-0 opacity-20"
+            style={{
+              backgroundImage: 'radial-gradient(#6480a5 1px, transparent 1px)',
+              backgroundSize: '35px 35px'
+            }}
+        />
 
         <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-blue-600/20 blur-[120px]" />
 
         <div className="relative max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-2 gap-16 items-center">
 
+          {/* PRESENTACIÓN */}
           <div>
-            <motion.div initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-400/30 bg-blue-500/10 text-blue-300 text-xs font-semibold tracking-wider mb-8">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-400/30 bg-blue-500/10 text-blue-300 text-xs font-semibold tracking-wider mb-8"
+            >
               <span className="w-2 h-2 rounded-full bg-blue-400" />
               GESTIÓN INTELIGENTE DE MANTENIMIENTO
             </motion.div>
 
-            <motion.h1 initial={{ opacity: 0, y: 25 }}
-                       animate={{ opacity: 1, y: 0 }}
-                       transition={{ duration: 0.7, delay: 0.1 }}
-                       className="text-4xl md:text-6xl xl:text-7xl font-bold leading-[1.08] tracking-tight">
+            <motion.h1
+                initial={{ opacity: 0, y: 25 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.1 }}
+                className="text-4xl md:text-6xl xl:text-7xl font-bold leading-[1.08] tracking-tight"
+            >
               El mantenimiento de tu empresa,
               <span className="text-blue-400"> bajo control.</span>
             </motion.h1>
 
-            <motion.p initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.3 }}
-                      className="mt-8 text-lg text-slate-300 leading-relaxed max-w-xl">
+            <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="mt-8 text-lg text-slate-300 leading-relaxed max-w-xl"
+            >
               Centraliza tus activos, órdenes de trabajo y operaciones
               industriales en una plataforma diseñada para adaptarse
               a las necesidades de tu organización.
             </motion.p>
 
             <div className="flex flex-wrap gap-4 mt-10">
-              <button onClick={() => onNavigate('register')}
-                      className="px-7 py-4 bg-blue-600 hover:bg-blue-500 rounded-lg font-semibold flex items-center gap-3 transition">
+              <button
+                  onClick={() => onNavigate('register')}
+                  className="px-7 py-4 bg-blue-600 hover:bg-blue-500 rounded-lg font-semibold flex items-center gap-3 transition"
+              >
                 Comenzar con AMaint <ArrowRight size={18} />
               </button>
-              <button onClick={() => document.getElementById('soluciones')?.scrollIntoView({ behavior: 'smooth' })}
-                      className="px-7 py-4 border border-white/20 hover:bg-white/10 rounded-lg font-semibold transition">
+
+              <button
+                  onClick={() =>
+                      document.getElementById('soluciones')?.scrollIntoView({
+                        behavior: 'smooth'
+                      })
+                  }
+                  className="px-7 py-4 border border-white/20 hover:bg-white/10 rounded-lg font-semibold transition"
+              >
                 Conocer soluciones
               </button>
             </div>
@@ -332,11 +353,15 @@ function Hero({ onNavigate }: PublicProps) {
             </div>
           </div>
 
-          <motion.div initial={{ opacity: 0, x: 35 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.8 }}
-                      className="relative">
+          {/* VISTA ILUSTRATIVA DE AMaint */}
+          <motion.div
+              initial={{ opacity: 0, x: 35 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="relative"
+          >
             <div className="rounded-2xl border border-white/15 bg-[#19283b] p-3 shadow-2xl shadow-black/40">
+
               <div className="flex items-center justify-between px-3 py-3 border-b border-white/10">
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
@@ -344,44 +369,65 @@ function Hero({ onNavigate }: PublicProps) {
                   </div>
                   <span className="font-semibold text-sm">AMaint Dashboard</span>
                 </div>
-                <span className="text-xs text-emerald-400">● Sistema operativo</span>
+
+                <span className="text-xs text-blue-300">
+                Vista de ejemplo
+              </span>
               </div>
 
               <div className="grid grid-cols-2 gap-3 p-3">
                 {[
-                  ['Órdenes activas', '24', ClipboardList],
-                  ['Disponibilidad', '96.8%', Activity],
-                  ['Activos registrados', '148', Factory],
-                  ['Tareas pendientes', '08', Clock3]
-                ].map(([label, value, Icon]: any) => (
-                    <div key={label} className="bg-[#22334a] rounded-xl p-4">
-                      <Icon size={19} className="text-blue-400 mb-4" />
-                      <p className="text-xs text-slate-400">{label}</p>
-                      <p className="text-2xl font-bold mt-1">{value}</p>
+                  [ClipboardList, 'Órdenes de trabajo'],
+                  [Activity, 'Indicadores'],
+                  [Factory, 'Activos'],
+                  [Clock3, 'Gestión de tareas']
+                ].map(([Icon, label]: any) => (
+                    <div
+                        key={label}
+                        className="bg-[#22334a] rounded-xl p-4"
+                    >
+                      <Icon size={22} className="text-blue-400 mb-4" />
+
+                      <p className="text-sm font-semibold text-white">
+                        {label}
+                      </p>
+
+                      <p className="text-xs text-slate-400 mt-2">
+                        Módulo de AMaint
+                      </p>
                     </div>
                 ))}
               </div>
 
               <div className="bg-[#22334a] rounded-xl mx-3 mb-3 p-5">
-                <div className="flex justify-between mb-5">
-                  <span className="font-semibold text-sm">Actividad de mantenimiento</span>
-                  <BarChart3 size={19} className="text-blue-400" />
+                <div className="flex items-center gap-3 mb-4">
+                  <BarChart3 size={22} className="text-blue-400" />
+
+                  <span className="font-semibold text-sm">
+                  Información de mantenimiento
+                </span>
                 </div>
-                <div className="flex items-end gap-2 h-28">
-                  {[45, 70, 55, 85, 62, 92, 75, 100, 68, 88, 58, 80].map((v, i) => (
-                      <div key={i} className="flex-1 bg-blue-500/70 rounded-t-sm"
-                           style={{ height: `${v}%` }} />
-                  ))}
-                </div>
-                <div className="flex justify-between text-xs text-slate-400 mt-3">
-                  <span>Semana 1</span><span>Semana 2</span><span>Semana 3</span>
+
+                <p className="text-sm text-slate-400 leading-relaxed">
+                  Consulta y organiza la información de mantenimiento
+                  de tu organización desde los módulos de AMaint.
+                </p>
+
+                <div className="mt-5 border-t border-white/10 pt-4">
+                  <p className="text-xs text-slate-500">
+                    Los indicadores se mostrarán cuando existan
+                    registros disponibles.
+                  </p>
                 </div>
               </div>
+
             </div>
+
             <p className="text-center text-xs text-slate-500 mt-4">
               Representación ilustrativa de la plataforma AMaint.
             </p>
           </motion.div>
+
         </div>
       </section>
   );
@@ -1128,51 +1174,114 @@ function AuthScreen({ mode, onNavigate }: {
 // PANEL DE CUENTA
 // --------------------------------------------------
 
-function AccountDashboard({ onNavigate, session }: PublicProps & { session: Session; onLogout: () => Promise<void> }) {
+
+function AccountDashboard({
+                            onNavigate,
+                            session,
+                            onLogout
+                          }: PublicProps & {
+  session: Session;
+  onLogout: () => Promise<void>;
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const userName = session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Usuario';
+
+  const userName =
+      session.user.user_metadata?.full_name ||
+      session.user.email?.split('@')[0] ||
+      'Usuario';
+
   const userEmail = session.user.email || '';
 
   const options = [
     [User, 'Mi cuenta', 'account'],
     [CreditCard, 'Planes y suscripciones', 'subscription'],
-    [LayoutDashboard, 'Aplicación AMaint', 'application']
+    [LayoutDashboard, 'Mi App AMaint', 'application']
   ] as const;
+
+  const handleNavigate = (destination: Screen) => {
+    setMenuOpen(false);
+    onNavigate(destination);
+  };
+
+  const handleLogout = async () => {
+    setMenuOpen(false);
+    await onLogout();
+  };
 
   return (
       <div className="min-h-screen bg-slate-50 text-slate-900">
-        <header className="bg-white border-b border-slate-200">
-          <div className="max-w-7xl mx-auto px-5 py-5 flex justify-between items-center">
-            <button onClick={() => onNavigate('home')}
-                    className="text-2xl font-bold">
-              AMaint<span className="text-blue-600">.</span>
+        <header className="bg-gradient-to-r from-[#155eef] to-[#087eaa] text-white shadow-lg">
+          <div className="max-w-7xl mx-auto px-5 py-4 flex justify-between items-center">
+
+            <button
+                onClick={() => handleNavigate('home')}
+                className="flex items-center gap-3 text-2xl font-bold"
+            >
+            <span className="w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center">
+              <Wrench size={22} />
+            </span>
+              AMaint.
             </button>
 
             <div className="relative">
-              <button onClick={() => setMenuOpen(!menuOpen)}
-                      className="flex items-center gap-3 border border-slate-200 rounded-xl px-4 py-2 hover:bg-slate-50">
-                <div className="w-9 h-9 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center">
+              <button
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  aria-expanded={menuOpen}
+                  className="flex items-center gap-3 border border-white/20 rounded-xl px-4 py-2 hover:bg-white/10 transition"
+              >
+                <div className="w-9 h-9 rounded-full bg-white text-blue-700 flex items-center justify-center">
                   <User size={19} />
                 </div>
+
                 <div className="hidden sm:block text-left">
                   <p className="text-sm font-semibold">{userName}</p>
-                  <p className="text-xs text-slate-500">{userEmail}</p>
+                  <p className="text-xs text-blue-100">{userEmail}</p>
                 </div>
+
                 <ChevronDown size={17} />
               </button>
 
               {menuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-xl border border-slate-200 shadow-xl z-30 p-2">
-                    {options.map(([Icon, label, screen]) => (
-                        <button key={screen} onClick={() => onNavigate(screen)}
-                                className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 text-sm text-left">
-                          <Icon size={18} className="text-blue-600" /> {label}
+                  <div className="absolute right-0 top-full mt-2 w-72 bg-white rounded-xl border border-slate-200 shadow-xl z-50 p-2 text-slate-900">
+
+                    <div className="px-3 py-3 border-b border-slate-100 mb-2">
+                      <p className="font-semibold">{userName}</p>
+                      <p className="text-xs text-slate-500">{userEmail}</p>
+                    </div>
+
+                    {options.map(([Icon, label, destination]) => (
+                        <button
+                            key={destination}
+                            onClick={() => handleNavigate(destination)}
+                            className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50 text-sm text-left transition"
+                        >
+                          <Icon size={18} className="text-blue-600" />
+                          {label}
                         </button>
                     ))}
+
                     <div className="border-t border-slate-200 my-2" />
-                    <button onClick={() => void onLogout()}
-                            className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 text-sm text-left text-red-600">
-                      <LogOut size={18} /> Cerrar sesión
+
+                    <button
+                        onClick={() => {
+                          // Los consejos se incorporarán cuando exista
+                          // una sección real para este contenido.
+                          setMenuOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50 text-sm text-left transition text-slate-600"
+                    >
+                      <Zap size={18} className="text-blue-600" />
+                      Consejos y novedades
+                    </button>
+
+                    <div className="border-t border-slate-200 my-2" />
+
+                    <button
+                        onClick={() => void handleLogout()}
+                        className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 text-sm text-left text-red-600 transition"
+                    >
+                      <LogOut size={18} />
+                      Cerrar sesión
                     </button>
                   </div>
               )}
@@ -1181,29 +1290,43 @@ function AccountDashboard({ onNavigate, session }: PublicProps & { session: Sess
         </header>
 
         <main className="max-w-7xl mx-auto px-5 py-14">
+
           <p className="text-blue-700 font-bold text-xs tracking-widest">
             ESPACIO PERSONAL
           </p>
+
           <h1 className="text-3xl md:text-4xl font-bold mt-3">
             ¡Hola, {userName}!
           </h1>
+
           <p className="text-slate-500 mt-3">
             Desde aquí puedes administrar tu cuenta y acceder a tus servicios.
           </p>
 
           <div className="grid md:grid-cols-3 gap-6 mt-12">
-            {options.map(([Icon, title, screen]) => (
-                <button key={screen} onClick={() => onNavigate(screen)}
-                        className="bg-white border border-slate-200 rounded-2xl p-8 text-left hover:border-blue-400 hover:shadow-lg transition">
+            {options.map(([Icon, title, destination]) => (
+                <button
+                    key={destination}
+                    onClick={() => handleNavigate(destination)}
+                    className="bg-white border border-slate-200 rounded-2xl p-8 text-left hover:border-blue-400 hover:shadow-lg transition"
+                >
                   <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center">
                     <Icon size={23} />
                   </div>
+
                   <h2 className="text-xl font-bold mt-6">{title}</h2>
+
                   <p className="text-sm text-slate-500 mt-3">
-                    {screen === 'account' && 'Consulta y administra tus datos personales.'}
-                    {screen === 'subscription' && 'Revisa los planes y modalidades comerciales.'}
-                    {screen === 'application' && 'Accede a las herramientas de mantenimiento.'}
+                    {destination === 'account' &&
+                        'Consulta y administra tus datos personales.'}
+
+                    {destination === 'subscription' &&
+                        'Consulta las modalidades comerciales de AMaint.'}
+
+                    {destination === 'application' &&
+                        'Accede a las herramientas de mantenimiento de tu empresa.'}
                   </p>
+
                   <p className="text-sm text-blue-700 font-semibold mt-7">
                     Acceder <ArrowRight className="inline" size={16} />
                   </p>
@@ -1286,6 +1409,11 @@ function SimpleAccountView({ mode, onNavigate, session }: {
 // APP PRINCIPAL
 // --------------------------------------------------
 
+
+// --------------------------------------------------
+// APP PRINCIPAL
+// --------------------------------------------------
+
 export default function App() {
   const [screen, setScreen] = useState<Screen>('home');
   const [session, setSession] = useState<Session | null>(null);
@@ -1293,60 +1421,216 @@ export default function App() {
 
   useEffect(() => {
     let active = true;
-    supabase.auth.getSession().then(({ data, error }) => {
-      if (!active) return;
-      if (error) console.error('No se pudo recuperar la sesión:', error.message);
-      setSession(data.session);
-      setAuthLoading(false);
-    });
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+
+    const confirmed =
+        new URLSearchParams(window.location.search)
+            .get('auth') === 'confirmed';
+
+    // Evita que los eventos de autenticación
+    // interfieran con la confirmación del correo.
+    let processingConfirmation = confirmed;
+
+    // Primero escuchamos los cambios de autenticación.
+    const {
+      data: { subscription }
+    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+
+      if (!active || processingConfirmation) return;
+
       setSession(nextSession);
       setAuthLoading(false);
-      if (!nextSession) setScreen(current => ['dashboard', 'account', 'subscription', 'application'].includes(current) ? 'home' : current);
-      else setScreen(current => ['login', 'register', 'home'].includes(current) ? 'dashboard' : current);
+
+      if (!nextSession) {
+        setScreen(current =>
+            ['dashboard', 'account', 'subscription', 'application'].includes(current)
+                ? 'home'
+                : current
+        );
+      } else {
+        setScreen(current =>
+            ['login', 'register', 'home'].includes(current)
+                ? 'dashboard'
+                : current
+        );
+      }
     });
-    return () => { active = false; subscription.unsubscribe(); };
+
+    const initializeAuth = async () => {
+      try {
+        const { data, error } = await supabase.auth.getSession();
+
+        if (!active) return;
+
+        if (error) {
+          throw error;
+        }
+
+        // El usuario acaba de regresar de confirmar
+        // su correo electrónico.
+        if (confirmed) {
+
+          if (data.session) {
+            const { error: logoutError } =
+                await supabase.auth.signOut();
+
+            if (logoutError) {
+              console.error(
+                  'Error al cerrar la sesión después de confirmar:',
+                  logoutError.message
+              );
+            }
+          }
+
+          if (!active) return;
+
+          // Limpiamos el parámetro de confirmación de la URL.
+          window.history.replaceState(
+              {},
+              document.title,
+              window.location.pathname
+          );
+
+          setSession(null);
+          setScreen('login');
+          setAuthLoading(false);
+
+          processingConfirmation = false;
+          return;
+        }
+
+        // Recuperamos la sesión existente.
+        setSession(data.session);
+
+      } catch (error) {
+        console.error(
+            'Error al inicializar la autenticación:',
+            error
+        );
+
+        if (active) {
+          setSession(null);
+        }
+      } finally {
+        if (active) {
+          setAuthLoading(false);
+          processingConfirmation = false;
+        }
+      }
+    };
+
+    void initializeAuth();
+
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
+
   }, []);
 
-  const protectedScreens: Screen[] = ['dashboard', 'account', 'subscription', 'application'];
+  // Pantallas que requieren una sesión activa.
+  const protectedScreens: Screen[] = [
+    'dashboard',
+    'account',
+    'subscription',
+    'application'
+  ];
+
   useEffect(() => {
-    if (!authLoading && protectedScreens.includes(screen) && !session) setScreen('login');
+    if (
+        !authLoading &&
+        protectedScreens.includes(screen) &&
+        !session
+    ) {
+      setScreen('login');
+    }
   }, [authLoading, screen, session]);
 
-  if (authLoading) return <div className="min-h-screen bg-[#101a29] text-white flex items-center justify-center">Cargando sesión AMaint...</div>;
+  // Pantalla de carga.
+  if (authLoading) {
+    return (
+        <div className="min-h-screen bg-[#101a29] text-white flex items-center justify-center">
+          Cargando sesión AMaint...
+        </div>
+    );
+  }
 
+  // Aplicación de mantenimiento.
   if (screen === 'application' && session) {
     return (
         <AppProvider>
           <div className="min-h-screen">
-            <div className="bg-slate-900 text-white px-5 py-3 flex justify-between items-center">
-              <span className="text-sm font-semibold">AMaint · Aplicación</span>
-              <button onClick={() => setScreen('dashboard')}
-                      className="text-sm hover:text-blue-300 transition">
+
+            <div className="bg-gradient-to-r from-[#155eef] to-[#087eaa] text-white px-5 py-3 flex justify-between items-center shadow-md">
+
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center">
+                  <Wrench size={20} />
+                </div>
+
+                <div>
+                  <p className="font-bold">AMaint.</p>
+                  <p className="text-xs text-blue-100">
+                    Mi App AMaint
+                  </p>
+                </div>
+              </div>
+
+              <button
+                  onClick={() => setScreen('dashboard')}
+                  className="text-sm hover:bg-white/10 px-4 py-2 rounded-lg transition"
+              >
                 Volver al panel
               </button>
+
             </div>
+
             <MainContent />
+
           </div>
         </AppProvider>
     );
   }
 
+  // Página pública.
   if (screen === 'home') {
     return <PublicLanding onNavigate={setScreen} />;
   }
 
+  // Login y registro.
   if (screen === 'login' || screen === 'register') {
-    return <AuthScreen mode={screen} onNavigate={setScreen} />;
+    return (
+        <AuthScreen
+            mode={screen}
+            onNavigate={setScreen}
+        />
+    );
   }
 
+  // Panel de usuario.
   if (screen === 'dashboard' && session) {
-    return <AccountDashboard onNavigate={setScreen} session={session} onLogout={logoutUser} />;
+    return (
+        <AccountDashboard
+            onNavigate={setScreen}
+            session={session}
+            onLogout={logoutUser}
+        />
+    );
   }
 
-  if ((screen === 'account' || screen === 'subscription') && session) {
-    return <SimpleAccountView mode={screen} onNavigate={setScreen} session={session} />;
+  // Cuenta y suscripciones.
+  if (
+      (screen === 'account' || screen === 'subscription') &&
+      session
+  ) {
+    return (
+        <SimpleAccountView
+            mode={screen}
+            onNavigate={setScreen}
+            session={session}
+        />
+    );
   }
 
   return <PublicLanding onNavigate={setScreen} />;
 }
+
