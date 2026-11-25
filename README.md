@@ -1,7 +1,7 @@
-# AMaint
+# Amaint
 ### Controla. Previene. Optimiza.
 
-**AMaint** es una plataforma web de gestión de mantenimiento
+**Amaint** es una plataforma web de gestión de mantenimiento
 industrial (CMMS), diseñada para adaptarse a las necesidades
 operativas de distintas empresas.
 
@@ -11,7 +11,7 @@ mediante una solución digital configurable y escalable.
 
 ## Objetivo
 
-Desarrollar una plataforma web multiempresa que permita
+Desarrollar una plataforma web que permita
 a distintas organizaciones gestionar sus procesos de
 mantenimiento desde un entorno centralizado, adaptable
 y seguro.
@@ -26,22 +26,22 @@ y seguro.
 - Indicadores de mantenimiento.
 - Configuración de módulos por empresa.
 - Administración central de organizaciones.
-- Gestión de suscripciones y licencias.
 
 ## Arquitectura tecnológica
 
 | Componente | Tecnología |
 |---|---|
-| Diseño visual | Figma |
+| Diseño visual | Google Stitch |
 | Backend | Java + Spring Boot |
-| Frontend | JavaScript + React |
+| Frontend | JavaScript/TypeScript + React |
 | Base de datos | PostgreSQL |
+| Plataforma de servicios BD | Supabase |
 | Control de versiones | Git + GitHub |
-| Despliegue | Hosting web |
+| Despliegue | Por definir |
 
 ## Modelo de funcionamiento
 
-AMaint contempla una arquitectura multiempresa.
+Amaint contempla una arquitectura multiempresa.
 Cada organización podrá disponer de módulos,
 configuraciones, usuarios y permisos adaptados
 a sus necesidades.
@@ -53,20 +53,26 @@ de adaptación, licencias y suscripciones.
 ## Estructura del repositorio
 
 - `backend/`: lógica de negocio y API.
-- `frontend/web/`: aplicación web.
+- `frontend/`: aplicación web.
 - `docs/`: documentación y planificación.
 - `designs/`: diseños y prototipos.
 - `infrastructure/`: despliegue e infraestructura.
 
 ## Estado del proyecto
 
-Etapa inicial de planificación y desarrollo.
+Etapa de Desarrollo 2.0
+
+Por desarrollar conexiones entre Frontend y Backend
+libre de redundancias con una estructura clara.
 
 ## Equipo
 
 Proyecto desarrollado colaborativamente
 por un equipo de cuatro integrantes.
 
----
-
-AMaint — Controla. Previene. Optimiza.
+| Integrante | Rol |
+|---|---|
+| Sebastián Carrasco | Backend Developer |
+| Javiera Chiple | Analista de Requisitos |
+| Vicente Serrano | Product Owner/Scrum Master |
+| Lucas Orell | Frontend Developer |
