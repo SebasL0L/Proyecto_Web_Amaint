@@ -22,7 +22,7 @@ export const Header: React.FC = () => {
       if (!active || !data.user) return;
       const user = data.user;
       setEmail(user.email ?? 'Correo no disponible');
-      setDisplayName(user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuario AMaint');
+      setDisplayName(user.user_metadata?.full_name || user.user_metadata?.name || 'Usuario AMaint');
       const { data: memberships } = await supabase.from('usuario_empresa').select('empresa_id, rol').eq('usuario_id', user.id).eq('activo', true).limit(1);
       const membership = memberships?.[0];
       if (membership && active) {
