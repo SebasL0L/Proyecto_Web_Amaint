@@ -1177,166 +1177,41 @@ function AuthScreen({ mode, onNavigate }: {
 
 
 function AccountDashboard({
-                            onNavigate,
-                            session,
-                            onLogout
-                          }: PublicProps & {
-  session: Session;
-  onLogout: () => Promise<void>;
-}) {
+  onNavigate,
+  session,
+  onLogout
+}: PublicProps & { session: Session; onLogout: () => Promise<void> }) {
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const userName =
-      session.user.user_metadata?.full_name ||
-      session.user.email?.split('@')[0] ||
-      'Usuario';
-
+  const userName = session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Usuario';
   const userEmail = session.user.email || '';
-
   const options = [
     [User, 'Mi cuenta', 'account'],
     [CreditCard, 'Planes y suscripciones', 'subscription'],
-    [LayoutDashboard, 'Mi App AMaint', 'application']
+    [LayoutDashboard, 'Mi espacio de trabajo', 'application']
   ] as const;
+  const handleNavigate = (destination: Screen) => { setMenuOpen(false); onNavigate(destination); };
+  const handleLogout = async () => { setMenuOpen(false); await onLogout(); };
 
-  const handleNavigate = (destination: Screen) => {
-    setMenuOpen(false);
-    onNavigate(destination);
-  };
-
-  const handleLogout = async () => {
-    setMenuOpen(false);
-    await onLogout();
-  };
-
-  return (
-      <div className="min-h-screen bg-slate-50 text-slate-900">
-        <header className="bg-gradient-to-r from-[#155eef] to-[#087eaa] text-white shadow-lg">
-          <div className="max-w-7xl mx-auto px-5 py-4 flex justify-between items-center">
-
-            <button
-                onClick={() => handleNavigate('home')}
-                className="flex items-center gap-3 text-2xl font-bold"
-            >
-            <span className="w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center">
-              <Wrench size={22} />
-            </span>
-              AMaint.
-            </button>
-
-            <div className="relative">
-              <button
-                  onClick={() => setMenuOpen(!menuOpen)}
-                  aria-expanded={menuOpen}
-                  className="flex items-center gap-3 border border-white/20 rounded-xl px-4 py-2 hover:bg-white/10 transition"
-              >
-                <div className="w-9 h-9 rounded-full bg-white text-blue-700 flex items-center justify-center">
-                  <User size={19} />
-                </div>
-
-                <div className="hidden sm:block text-left">
-                  <p className="text-sm font-semibold">{userName}</p>
-                  <p className="text-xs text-blue-100">{userEmail}</p>
-                </div>
-
-                <ChevronDown size={17} />
-              </button>
-
-              {menuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-72 bg-white rounded-xl border border-slate-200 shadow-xl z-50 p-2 text-slate-900">
-
-                    <div className="px-3 py-3 border-b border-slate-100 mb-2">
-                      <p className="font-semibold">{userName}</p>
-                      <p className="text-xs text-slate-500">{userEmail}</p>
-                    </div>
-
-                    {options.map(([Icon, label, destination]) => (
-                        <button
-                            key={destination}
-                            onClick={() => handleNavigate(destination)}
-                            className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50 text-sm text-left transition"
-                        >
-                          <Icon size={18} className="text-blue-600" />
-                          {label}
-                        </button>
-                    ))}
-
-                    <div className="border-t border-slate-200 my-2" />
-
-                    <button
-                        onClick={() => {
-                          // Los consejos se incorporarán cuando exista
-                          // una sección real para este contenido.
-                          setMenuOpen(false);
-                        }}
-                        className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50 text-sm text-left transition text-slate-600"
-                    >
-                      <Zap size={18} className="text-blue-600" />
-                      Consejos y novedades
-                    </button>
-
-                    <div className="border-t border-slate-200 my-2" />
-
-                    <button
-                        onClick={() => void handleLogout()}
-                        className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 text-sm text-left text-red-600 transition"
-                    >
-                      <LogOut size={18} />
-                      Cerrar sesión
-                    </button>
-                  </div>
-              )}
-            </div>
-          </div>
-        </header>
-
-        <main className="max-w-7xl mx-auto px-5 py-14">
-
-          <p className="text-blue-700 font-bold text-xs tracking-widest">
-            ESPACIO PERSONAL
-          </p>
-
-          <h1 className="text-3xl md:text-4xl font-bold mt-3">
-            ¡Hola, {userName}!
-          </h1>
-
-          <p className="text-slate-500 mt-3">
-            Desde aquí puedes administrar tu cuenta y acceder a tus servicios.
-          </p>
-
-          <div className="grid md:grid-cols-3 gap-6 mt-12">
-            {options.map(([Icon, title, destination]) => (
-                <button
-                    key={destination}
-                    onClick={() => handleNavigate(destination)}
-                    className="bg-white border border-slate-200 rounded-2xl p-8 text-left hover:border-blue-400 hover:shadow-lg transition"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center">
-                    <Icon size={23} />
-                  </div>
-
-                  <h2 className="text-xl font-bold mt-6">{title}</h2>
-
-                  <p className="text-sm text-slate-500 mt-3">
-                    {destination === 'account' &&
-                        'Consulta y administra tus datos personales.'}
-
-                    {destination === 'subscription' &&
-                        'Consulta las modalidades comerciales de AMaint.'}
-
-                    {destination === 'application' &&
-                        'Accede a las herramientas de mantenimiento de tu empresa.'}
-                  </p>
-
-                  <p className="text-sm text-blue-700 font-semibold mt-7">
-                    Acceder <ArrowRight className="inline" size={16} />
-                  </p>
-                </button>
-            ))}
-          </div>
-        </main>
+  return <div className="min-h-screen bg-slate-50 text-slate-900">
+    <header className="bg-gradient-to-r from-[#155eef] to-[#087eaa] text-white shadow-lg">
+      <div className="max-w-7xl mx-auto px-5 py-4 flex justify-between items-center">
+        <button onClick={() => handleNavigate('home')} className="flex items-center gap-3 text-2xl font-bold"><span className="w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center"><Wrench size={22}/></span>AMaint.</button>
+        <button onClick={() => setMenuOpen(true)} aria-expanded={menuOpen} className="flex items-center gap-3 border border-white/20 rounded-xl px-4 py-2 hover:bg-white/10 transition"><span className="w-9 h-9 rounded-full bg-white text-blue-700 flex items-center justify-center"><User size={19}/></span><span className="hidden sm:block text-left"><span className="block text-sm font-semibold">{userName}</span><span className="block text-xs text-blue-100">{userEmail}</span></span><Menu size={18}/></button>
       </div>
-  );
+    </header>
+    {menuOpen && <div className="fixed inset-0 z-[80]"><button aria-label="Cerrar menú" onClick={() => setMenuOpen(false)} className="absolute inset-0 bg-slate-950/50"/><aside className="absolute right-0 top-0 h-full w-full max-w-sm bg-white shadow-2xl p-6 flex flex-col animate-in slide-in-from-right duration-200">
+      <div className="flex justify-between items-center pb-5 border-b border-slate-200"><div><p className="font-bold text-lg">Mi espacio AMaint</p><p className="text-xs text-slate-500">Cuenta y servicios</p></div><button onClick={() => setMenuOpen(false)} aria-label="Cerrar menú" className="p-2 rounded-lg hover:bg-slate-100"><X/></button></div>
+      <div className="py-5 border-b border-slate-200"><div className="w-12 h-12 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center mb-3"><User/></div><p className="font-semibold">{userName}</p><p className="text-xs text-slate-500 break-all">{userEmail}</p><p className="text-xs text-slate-500 mt-2">Sesión autenticada mediante Supabase</p></div>
+      <nav className="py-4 space-y-1">{options.map(([Icon,label,destination]) => <button key={destination} onClick={() => handleNavigate(destination)} className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-blue-50 text-sm text-left"><span className="flex items-center gap-3"><Icon size={18} className="text-blue-600"/>{label}</span><ChevronRight size={17} className="text-slate-400"/></button>)}</nav>
+      <button onClick={() => void handleLogout()} className="mt-auto w-full flex items-center gap-3 p-3 rounded-xl border-t border-slate-200 pt-5 text-red-600 hover:bg-red-50 text-sm font-semibold"><LogOut size={18}/>Cerrar sesión</button>
+    </aside></div>}
+    <main className="max-w-7xl mx-auto px-5 py-14">
+      <p className="text-blue-700 font-bold text-xs tracking-widest">ESPACIO PERSONAL</p>
+      <h1 className="text-3xl md:text-4xl font-bold mt-3">¡Hola, {userName}!</h1>
+      <p className="text-slate-500 mt-3">Tu cuenta está autenticada. Desde aquí puedes acceder a tu espacio de trabajo y administrar tus servicios.</p>
+      <div className="grid md:grid-cols-3 gap-6 mt-12">{options.map(([Icon,title,destination]) => <button key={destination} onClick={() => handleNavigate(destination)} className="bg-white border border-slate-200 rounded-2xl p-8 text-left hover:border-blue-400 hover:shadow-lg transition"><div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center"><Icon size={23}/></div><h2 className="text-xl font-bold mt-6">{title}</h2><p className="text-sm text-slate-500 mt-3">{destination === 'account' ? 'Consulta tus datos personales y correo de acceso.' : destination === 'subscription' ? 'Consulta las modalidades comerciales de AMaint.' : 'Ingresa a las herramientas de mantenimiento de tu empresa.'}</p><p className="text-sm text-blue-700 font-semibold mt-7">Acceder <ArrowRight className="inline" size={16}/></p></button>)}</div>
+    </main>
+  </div>;
 }
 
 // --------------------------------------------------
