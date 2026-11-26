@@ -36,9 +36,9 @@ export const Header: React.FC = () => {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 bg-surface-container-low border-b border-outline/10 text-on-surface select-none shadow-sm">
+    <header className="sticky top-0 z-40 bg-gradient-to-r from-[#e7f2ff] via-[#f8fbff] to-[#def5ff] border-b border-blue-100 text-on-surface select-none shadow-sm">
       {/* Top Telemetry & Connectivity Strip */}
-      <div className="bg-surface-container-lowest px-4 py-1 text-[11px] font-mono flex flex-wrap items-center justify-between border-b border-outline/5 text-on-surface-variant">
+      <div className="bg-gradient-to-r from-[#dcecff] to-[#e2f8ff] px-4 py-1 text-[11px] font-mono flex flex-wrap items-center justify-between border-b border-outline/5 text-on-surface-variant">
         <div className="flex items-center gap-3">
           <span className="inline-flex items-center gap-1.5 text-emerald-400 font-semibold tracking-wider">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -69,8 +69,8 @@ export const Header: React.FC = () => {
       <div className="px-4 py-2.5 flex items-center justify-between gap-3">
         {/* Brand & Plant Info */}
         <div className="flex items-center gap-3 min-w-0">
-          <div className="w-10 h-10 rounded-lg bg-surface-container-highest border border-outline/20 flex items-center justify-center shrink-0 shadow-inner group">
-            <Layers className="w-6 h-6 text-primary transition-transform group-hover:scale-105" />
+          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#1767d9] to-[#35bde5] border border-white/60 flex items-center justify-center shrink-0 shadow-md group">
+            <Layers className="w-6 h-6 text-white transition-transform group-hover:scale-105" />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2">
@@ -82,7 +82,7 @@ export const Header: React.FC = () => {
               </span>
             </div>
             <p className="text-[11px] font-mono text-on-surface-variant truncate">
-              Planta Los Andes • Líneas Críticas Plásticos
+              Manufacturas Andina S.A. • Planta Los Andes · Líneas Críticas
             </p>
           </div>
         </div>
