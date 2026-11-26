@@ -8,8 +8,8 @@ export const Header: React.FC = () => {
   const [time, setTime] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [email, setEmail] = useState('Cuenta autenticada');
-  const [displayName, setDisplayName] = useState('Usuario AMaint');
-  const [company, setCompany] = useState('Espacio empresarial');
+  const [displayName, setDisplayName] = useState('ANDINA');
+  const [company, setCompany] = useState('ANDINA');
   const [role, setRole] = useState('Usuario');
 
   useEffect(() => {
@@ -22,13 +22,13 @@ export const Header: React.FC = () => {
       if (!active || !data.user) return;
       const user = data.user;
       setEmail(user.email ?? 'Correo no disponible');
-      setDisplayName(String(user.user_metadata?.full_name || user.user_metadata?.name || 'Nombre no configurado'));
+      setDisplayName('ANDINA');
       const { data: memberships } = await supabase.from('usuario_empresa').select('empresa_id, rol').eq('usuario_id', user.id).eq('activo', true).limit(1);
       const membership = memberships?.[0];
       if (membership && active) {
         setRole(String(membership.rol).replaceAll('_', ' '));
         const { data: companyData } = await supabase.from('empresa').select('razon_social, nombre_comercial').eq('id', membership.empresa_id).maybeSingle();
-        if (active && companyData) setCompany(companyData.nombre_comercial || companyData.razon_social || 'Empresa');
+        if (active && companyData) setCompany('ANDINA');
       }
     };
     void loadIdentity();
