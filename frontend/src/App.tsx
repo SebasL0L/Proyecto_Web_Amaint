@@ -986,36 +986,46 @@ function PublicLanding({ onNavigate }: PublicProps) {
 // APLICACIÓN DE MANTENIMIENTO
 // --------------------------------------------------
 
+const PendingDataView: React.FC<{ title: string; description: string }> = ({ title, description }) => (
+  <div className="max-w-5xl mx-auto p-6 sm:p-10">
+    <p className="text-xs font-bold tracking-widest text-primary uppercase">Espacio empresarial · AMaint</p>
+    <h1 className="text-2xl sm:text-3xl font-bold text-on-surface mt-2">{title}</h1>
+    <p className="text-sm text-on-surface-variant mt-2 max-w-2xl">{description}</p>
+    <div className="mt-8 rounded-2xl border border-outline/15 bg-surface-container-low p-6 sm:p-8">
+      <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4"><Building2 className="w-6 h-6"/></div>
+      <h2 className="font-semibold text-on-surface">Sin registros disponibles</h2>
+      <p className="text-sm text-on-surface-variant mt-2 max-w-2xl">Este módulo todavía no está conectado a una tabla real de Supabase. Para evitar mostrar información inventada, los registros de ejemplo se han retirado. La información que se incorpore aquí deberá guardarse y consultarse desde la base de datos de la empresa.</p>
+      <div className="mt-5 inline-flex items-center gap-2 rounded-lg bg-surface-container px-3 py-2 text-xs text-on-surface-variant"><ShieldCheck className="w-4 h-4 text-primary"/> Datos reales · Sin demostraciones ficticias</div>
+    </div>
+  </div>
+);
+
 const MainContent: React.FC = () => {
   const { currentView } = useApp();
-
   const renderCurrentView = () => {
     switch (currentView) {
-      case 'mis-ots-dashboard': return <MisOTsView />;
-      case 'escaner-qr-activos': return <EscanerQRView />;
-      case 'reportar-falla': return <ReportarFallaView />;
-      case 'checklist-cierre': return <ChecklistCierreView />;
       case 'jerarquia-de-activos': return <JerarquiaActivosView />;
-      case 'asignacion-de-ots': return <AsignacionOTsView />;
-      case 'bodega-repuestos': return <BodegaRepuestosView />;
-      case 'sincronizacion-logs': return <SincronizacionLogsView />;
-      case 'kpis-confiabilidad': return <KpisConfiabilidadView />;
-      case 'costos-disponibilidad': return <CostosDisponibilidadView />;
-      default: return <MisOTsView />;
+      case 'mis-ots-dashboard': return <PendingDataView title="Órdenes de trabajo" description="Consulta y seguimiento de órdenes de mantenimiento de la empresa." />;
+      case 'escaner-qr-activos': return <PendingDataView title="Identificación de activos" description="Consulta de activos registrados para localizar equipos y sus componentes." />;
+      case 'reportar-falla': return <PendingDataView title="Reportar incidencia" description="Registro de fallas operacionales asociadas a un activo de la empresa." />;
+      case 'checklist-cierre': return <PendingDataView title="Checklist de intervención" description="Verificación y cierre de trabajos de mantenimiento." />;
+      case 'asignacion-de-ots': return <PendingDataView title="Asignación de trabajos" description="Asignación de órdenes a usuarios y técnicos autorizados." />;
+      case 'bodega-repuestos': return <PendingDataView title="Inventario y repuestos" description="Control de existencias, movimientos y solicitudes de materiales." />;
+      case 'sincronizacion-logs': return <PendingDataView title="Actividad y sincronización" description="Historial de operaciones y sincronización de datos." />;
+      case 'kpis-confiabilidad': return <PendingDataView title="Indicadores de confiabilidad" description="Indicadores calculados a partir de órdenes y eventos reales." />;
+      case 'costos-disponibilidad': return <PendingDataView title="Costos y disponibilidad" description="Análisis basado en costos y tiempos de operación registrados." />;
+      default: return <JerarquiaActivosView />;
     }
   };
-
   return (
-      <div className="min-h-screen bg-surface text-on-surface flex flex-col font-sans">
-        <Header />
-        <div className="flex flex-1 overflow-hidden">
-          <Sidebar />
-          <main className="flex-1 overflow-y-auto bg-surface-container-lowest/30">
-            {renderCurrentView()}
-          </main>
-        </div>
-        <Toast />
+    <div className="min-h-screen bg-surface text-on-surface flex flex-col font-sans">
+      <Header />
+      <div className="flex flex-1 overflow-hidden">
+        <Sidebar />
+        <main className="flex-1 overflow-y-auto bg-surface-container-lowest/30">{renderCurrentView()}</main>
       </div>
+      <Toast />
+    </div>
   );
 };
 
@@ -1185,7 +1195,7 @@ function AccountDashboard({
   const [companyName, setCompanyName] = useState('Cuenta personal');
   const [companyRole, setCompanyRole] = useState('Sin membresía empresarial');
   useEffect(() => { let active = true; const loadMembership = async () => { const { data: memberships } = await supabase.from('usuario_empresa').select('empresa_id, rol').eq('usuario_id', session.user.id).eq('activo', true).limit(1); const membership = memberships?.[0]; if (!membership || !active) return; setCompanyRole(String(membership.rol || 'Usuario').replaceAll('_', ' ')); const { data: company } = await supabase.from('empresa').select('razon_social, nombre_comercial').eq('id', membership.empresa_id).maybeSingle(); if (active && company) setCompanyName(company.nombre_comercial || company.razon_social || 'Empresa'); }; void loadMembership(); return () => { active = false; }; }, [session.user.id]);
-  const userName = session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.user_metadata?.display_name || session.user.user_metadata?.preferred_username || session.user.email?.split('@')[0] || 'Usuario';
+  const userName = session.user.user_metadata?.full_name || session.user.user_metadata?.name || 'Usuario AMaint';
   const userEmail = session.user.email || '';
   const options = [
     [User, 'Mi cuenta', 'account'],
@@ -1396,11 +1406,6 @@ export default function App() {
 
   }, []);
 
-  // Una sesión activa siempre vuelve al menú de usuario, nunca al login público.
-  if (session && ['home', 'login', 'register'].includes(screen)) {
-    return <AccountDashboard onNavigate={setScreen} session={session} onLogout={logoutUser} />;
-  }
-
   // Pantallas que requieren una sesión activa.
   const protectedScreens: Screen[] = [
     'dashboard',
@@ -1418,6 +1423,11 @@ export default function App() {
       setScreen('login');
     }
   }, [authLoading, screen, session]);
+
+  // Una sesión activa siempre vuelve al menú de usuario, nunca al login público.
+  if (session && ['home', 'login', 'register'].includes(screen)) {
+    return <AccountDashboard onNavigate={setScreen} session={session} onLogout={logoutUser} />;
+  }
 
   // Pantalla de carga.
   if (authLoading) {
