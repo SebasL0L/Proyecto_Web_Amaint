@@ -9,48 +9,9 @@ export const INITIAL_TECHNICIANS: Technician[] = [];
 // Sin registros de demostración: las órdenes, técnicos, repuestos y bitácoras deben provenir de datos persistidos.
 export const INITIAL_SPARE_PARTS: SparePartItem[] = [];
 
+// Vale vacío hasta que exista un registro persistido de inventario y despacho.
 export const INITIAL_VOUCHER: DispatchVoucher = {
-  id: 'VAL-8821',
-  otCode: 'OT-2026-098',
-  otTitle: 'Inyectora Hidráulica 03 (Línea Crítica - Paro Planta)',
-  requesterName: 'Fernando Silva',
-  requesterRole: 'Téc. Hidráulico Sr (#3102)',
-  warehouseKeeper: 'Carlos Mendoza (ID: USR-884)',
-  costCenter: 'CC-302 (Inyección 03)',
-  totalCostUSD: 384.5,
-  status: 'pending',
-  items: [
-    {
-      sku: 'KM-HYD-502',
-      name: 'Kit Mangueras Flexibles 1/2" 300 Bar',
-      tag: 'LOT-2025-NOV-99',
-      location: 'Pasillo H-04',
-      stock: 6,
-      qtyRequired: 2,
-      unit: 'un',
-      verified: true,
-    },
-    {
-      sku: 'OR-90-NBR',
-      name: 'O-Rings NBR 90 Shore A (Kit 10 Piezas)',
-      tag: 'Din 3771',
-      location: 'Pasillo H-02, Gaveta 14',
-      stock: 24,
-      qtyRequired: 1,
-      unit: 'kit',
-      verified: true,
-    },
-    {
-      sku: 'LUB-ISO68-MBL',
-      name: 'Aceite Hidráulico ISO VG 68 Mobil DTE (Tambor 208L)',
-      tag: 'Batch #2026-01',
-      location: 'Zona Lubricantes L-01',
-      stock: 140,
-      qtyRequired: 20,
-      unit: 'L',
-      verified: true,
-    },
-  ],
+  id: '', otCode: '', otTitle: '', requesterName: '', requesterRole: '', warehouseKeeper: '', costCenter: '', totalCostUSD: 0, status: 'pending', items: [],
 };
 
 export const INITIAL_ASSET_TREE: AssetNode = {
