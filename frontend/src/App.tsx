@@ -25,6 +25,7 @@ import { SincronizacionLogsView } from './components/modules/SincronizacionLogsV
 import { KpisConfiabilidadView } from './components/modules/KpisConfiabilidadView';
 import { CostosDisponibilidadView } from './components/modules/CostosDisponibilidadView';
 import { loginUser, registerUser, logoutUser } from './lib/auth';
+import { setAccessTokenProvider } from './api';
 import { supabase } from './lib/supabase';
 import type { Session } from '@supabase/supabase-js';
 // --------------------------------------------------
@@ -1421,7 +1422,13 @@ export default function App() {
 
   useEffect(() => {
     let active = true;
+    setAccessTokenProvider(async () => {
+      const { data, error } = await supabase.auth.getSession();
 
+      if (error) return null;
+
+      return data.session?.access_token ?? null;
+    });
     const confirmed =
         new URLSearchParams(window.location.search)
             .get('auth') === 'confirmed';
