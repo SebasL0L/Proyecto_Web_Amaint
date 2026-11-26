@@ -1563,7 +1563,7 @@ export default function App() {
             <div className="bg-gradient-to-r from-[#155eef] to-[#087eaa] text-white px-5 py-3 flex justify-between items-center shadow-md">
 
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-xl bg-white/20 border border-white/25 flex items-center justify-center shadow-inner">
                   <Wrench size={20} />
                 </div>
 
@@ -1577,7 +1577,7 @@ export default function App() {
 
               <button
                   onClick={() => setScreen('dashboard')}
-                  className="text-sm hover:bg-white/10 px-4 py-2 rounded-lg transition"
+                  className="text-sm bg-white/10 hover:bg-white/20 border border-white/20 px-4 py-2 rounded-lg transition"
               >
                 Volver al panel
               </button>
