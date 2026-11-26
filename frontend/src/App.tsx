@@ -1432,7 +1432,7 @@ export default function App() {
   // Pantalla de carga.
   if (authLoading) {
     return (
-        <div className="min-h-screen bg-[#101a29] text-white flex items-center justify-center">
+        <div className="min-h-screen bg-[#f4f6f8] text-[#17212b] flex items-center justify-center">
           Cargando sesión AMaint...
         </div>
     );
@@ -1444,15 +1444,15 @@ export default function App() {
         <AppProvider>
           <div className="min-h-screen">
 
-            <div className="bg-gradient-to-r from-[#155eef] to-[#087eaa] text-white px-5 py-3 flex justify-between items-center shadow-md">
+            <div className="bg-white text-[#17212b] border-b border-[#d3dbe3] px-5 py-3 flex justify-between items-center shadow-sm">
 
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-lg bg-[#d8eee5] text-[#176b52] flex items-center justify-center">
                   <Wrench size={20} />
                 </div>
 
                 <div>
-                  <p className="font-bold">AMaint.</p>
+                  <p className="font-bold text-[#176b52]">AMaint · ANDINA</p>
                   <p className="text-xs text-blue-100">
                     Mi App AMaint
                   </p>
@@ -1461,7 +1461,7 @@ export default function App() {
 
               <button
                   onClick={() => setScreen('dashboard')}
-                  className="text-sm hover:bg-white/10 px-4 py-2 rounded-lg transition"
+                  className="text-sm text-[#176b52] hover:bg-[#d8eee5] px-4 py-2 rounded-lg transition"
               >
                 Volver al panel
               </button>
