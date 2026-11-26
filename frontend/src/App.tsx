@@ -1205,24 +1205,27 @@ function AccountDashboard({
   const handleNavigate = (destination: Screen) => { setMenuOpen(false); onNavigate(destination); };
   const handleLogout = async () => { setMenuOpen(false); await onLogout(); };
 
-  return <div className="min-h-screen bg-slate-50 text-slate-900">
-    <header className="bg-gradient-to-r from-[#145b46] to-[#1b765b] text-white shadow-lg">
+  return <div className="min-h-screen bg-gradient-to-br from-[#f3f9ff] via-white to-[#e6f4ff] text-slate-900">
+    <header className="bg-gradient-to-r from-[#075985] via-[#1479b8] to-[#38a5d8] text-white shadow-lg shadow-sky-900/15">
       <div className="max-w-7xl mx-auto px-5 py-4 flex justify-between items-center">
-        <button onClick={() => handleNavigate('home')} className="flex items-center gap-3 text-2xl font-bold"><span className="w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center"><Wrench size={22}/></span>AMaint.</button>
+        <button onClick={() => handleNavigate('home')} className="flex items-center gap-3 text-2xl font-bold"><span className="w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center"><Building2 size={22}/></span><span className="flex flex-col items-start leading-tight"><span className="text-xl font-extrabold tracking-wide">ANDINA</span><span className="text-[11px] text-sky-100 font-semibold tracking-wide">AMaint · GESTIÓN INDUSTRIAL</span></span></button>
         <button onClick={() => setMenuOpen(true)} aria-expanded={menuOpen} className="flex items-center gap-3 border border-white/20 rounded-xl px-4 py-2 hover:bg-white/10 transition"><span className="w-9 h-9 rounded-full bg-white text-[#145b46] flex items-center justify-center"><User size={19}/></span><span className="hidden sm:block text-left"><span className="block text-sm font-semibold">{userName}</span><span className="block text-xs text-emerald-100">{userEmail}</span></span><Menu size={18}/></button>
       </div>
     </header>
     {menuOpen && <div className="fixed inset-0 z-[80]"><button aria-label="Cerrar menú" onClick={() => setMenuOpen(false)} className="absolute inset-0 bg-slate-950/50"/><aside className="absolute right-0 top-0 h-full w-full max-w-sm bg-white shadow-2xl p-6 flex flex-col animate-in slide-in-from-right duration-200">
       <div className="flex justify-between items-center pb-5 border-b border-slate-200"><div><p className="font-bold text-lg">Mi espacio AMaint</p><p className="text-xs text-slate-500">Cuenta y servicios</p></div><button onClick={() => setMenuOpen(false)} aria-label="Cerrar menú" className="p-2 rounded-lg hover:bg-slate-100"><X/></button></div>
-      <div className="py-5 border-b border-slate-200"><div className="w-12 h-12 rounded-full bg-[#d8eee5] text-[#176b52] flex items-center justify-center mb-3"><User/></div><p className="font-semibold">{userName}</p><p className="text-xs text-slate-500 break-all">{userEmail}</p><p className="text-xs text-slate-500 mt-2">{companyName} · {companyRole}</p></div>
+      <div className="py-5 border-b border-slate-200"><div className="w-12 h-12 rounded-full bg-gradient-to-br from-sky-100 to-blue-100 text-sky-700 flex items-center justify-center mb-3"><User/></div><p className="font-semibold">{userName}</p><p className="text-xs text-slate-500 break-all">{userEmail}</p><p className="text-xs text-slate-500 mt-2">{companyName} · {companyRole}</p></div>
       <nav className="py-4 space-y-1">{options.map(([Icon,label,destination]) => <button key={destination} onClick={() => handleNavigate(destination)} className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-[#edf6f1] text-sm text-left"><span className="flex items-center gap-3"><Icon size={18} className="text-[#176b52]"/>{label}</span><ChevronRight size={17} className="text-slate-400"/></button>)}</nav>
       <button onClick={() => void handleLogout()} className="mt-auto w-full flex items-center gap-3 p-3 rounded-xl border-t border-slate-200 pt-5 text-red-600 hover:bg-red-50 text-sm font-semibold"><LogOut size={18}/>Cerrar sesión</button>
     </aside></div>}
     <main className="max-w-7xl mx-auto px-5 py-14">
-      <p className="text-[#176b52] font-bold text-xs tracking-widest">ESPACIO PERSONAL</p>
-      <h1 className="text-3xl md:text-4xl font-bold mt-3">¡Hola, {userName}!</h1>
-      <p className="text-slate-500 mt-3">Sesión activa: {userEmail}. {companyName !== 'Cuenta personal' ? 'Organización: ' + companyName + '.' : 'Tu cuenta aún no tiene una organización empresarial asignada.'} Accede a tu espacio de trabajo.</p>
-      <div className="grid md:grid-cols-3 gap-6 mt-12">{options.map(([Icon,title,destination]) => <button key={destination} onClick={() => handleNavigate(destination)} className="bg-white border border-slate-200 rounded-2xl p-8 text-left hover:border-[#176b52] hover:shadow-lg transition"><div className="w-12 h-12 rounded-xl bg-[#d8eee5] text-[#176b52] flex items-center justify-center"><Icon size={23}/></div><h2 className="text-xl font-bold mt-6">{title}</h2><p className="text-sm text-slate-500 mt-3">{destination === 'account' ? 'Consulta tus datos personales y correo de acceso.' : destination === 'subscription' ? 'Consulta las modalidades comerciales de AMaint.' : 'Ingresa a las herramientas de mantenimiento de tu empresa.'}</p><p className="text-sm text-[#176b52] font-semibold mt-7">Acceder <ArrowRight className="inline" size={16}/></p></button>)}</div>
+      <section className="rounded-3xl border border-sky-100 bg-gradient-to-r from-white via-sky-50 to-blue-100/70 p-7 md:p-10 shadow-sm shadow-sky-900/5">
+      <p className="text-sky-700 font-bold text-xs tracking-[.2em]">ESPACIO EMPRESARIAL · ANDINA</p>
+      <h1 className="text-3xl md:text-4xl font-extrabold mt-3">Bienvenido a ANDINA</h1>
+      <p className="text-slate-600 mt-3">AMaint · Plataforma de gestión de mantenimiento industrial.</p>
+      <p className="text-slate-500 text-sm mt-2">Sesión activa: {userEmail}. Organización: {companyName}.</p>
+      </section>
+      <div className="grid md:grid-cols-3 gap-6 mt-12">{options.map(([Icon,title,destination]) => <button key={destination} onClick={() => handleNavigate(destination)} className="bg-white/90 border border-sky-100 rounded-2xl p-8 text-left hover:border-sky-300 hover:shadow-xl hover:shadow-sky-900/5 transition"><div className="w-12 h-12 rounded-xl bg-[#d8eee5] text-[#176b52] flex items-center justify-center"><Icon size={23}/></div><h2 className="text-xl font-bold mt-6">{title}</h2><p className="text-sm text-slate-500 mt-3">{destination === 'account' ? 'Consulta tus datos personales y correo de acceso.' : destination === 'subscription' ? 'Consulta las modalidades comerciales de AMaint.' : 'Ingresa a las herramientas de mantenimiento de tu empresa.'}</p><p className="text-sm text-[#176b52] font-semibold mt-7">Acceder <ArrowRight className="inline" size={16}/></p></button>)}</div>
     </main>
   </div>;
 }
