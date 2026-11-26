@@ -57,7 +57,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentView, setCurrentView] = useState<ViewPath>('mis-ots-dashboard');
-  const [selectedAssetCode, setSelectedAssetCode] = useState<string>('PL1-EXT-02');
+  const [selectedAssetCode, setSelectedAssetCode] = useState<string>('');
   const [workOrders, setWorkOrders] = useState<WorkOrder[]>(INITIAL_WORK_ORDERS);
   const [technicians, setTechnicians] = useState<Technician[]>(INITIAL_TECHNICIANS);
   const [spareParts, setSpareParts] = useState<SparePartItem[]>(INITIAL_SPARE_PARTS);
@@ -65,7 +65,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [syncPackets, setSyncPackets] = useState<SyncPacket[]>(INITIAL_SYNC_PACKETS);
   const [forensicLogs, setForensicLogs] = useState<ForensicLog[]>(INITIAL_FORENSIC_LOGS);
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
-  const [offlineQueueCount, setOfflineQueueCount] = useState<number>(2);
+  const [offlineQueueCount, setOfflineQueueCount] = useState<number>(0);
   const [toast, setToast] = useState<ToastMessage | null>(null);
   const [activeOTDetailId, setActiveOTDetailId] = useState<string | null>(null);
 
