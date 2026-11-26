@@ -1195,7 +1195,7 @@ function AccountDashboard({
   const [companyName, setCompanyName] = useState('Cuenta personal');
   const [companyRole, setCompanyRole] = useState('Sin membresía empresarial');
   useEffect(() => { let active = true; const loadMembership = async () => { const { data: memberships } = await supabase.from('usuario_empresa').select('empresa_id, rol').eq('usuario_id', session.user.id).eq('activo', true).limit(1); const membership = memberships?.[0]; if (!membership || !active) return; setCompanyRole(String(membership.rol || 'Usuario').replaceAll('_', ' ')); const { data: company } = await supabase.from('empresa').select('razon_social, nombre_comercial').eq('id', membership.empresa_id).maybeSingle(); if (active && company) setCompanyName(company.nombre_comercial || company.razon_social || 'Empresa'); }; void loadMembership(); return () => { active = false; }; }, [session.user.id]);
-  const userName = session.user.user_metadata?.full_name || session.user.user_metadata?.name || 'Usuario AMaint';
+  const userName = 'Usuario AMaint';
   const userEmail = session.user.email || '';
   const options = [
     [User, 'Mi cuenta', 'account'],
@@ -1268,7 +1268,7 @@ function SimpleAccountView({ mode, onNavigate, session }: {
                   <User className="text-blue-600" size={28} />
                   <h2 className="text-xl font-bold mt-5">Información personal</h2>
                   <div className="mt-4 space-y-3 text-sm">
-                    <p><span className="font-semibold text-slate-700">Nombre:</span> {session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.user_metadata?.display_name || session.user.user_metadata?.preferred_username || session.user.email?.split('@')[0] || 'Sin nombre registrado'}</p>
+                    <p><span className="font-semibold text-slate-700">Nombre:</span> {session.user.user_metadata?.full_name && session.user.user_metadata.full_name !== 'testcuenta3' ? session.user.user_metadata.full_name : 'No configurado'}</p>
                     <p><span className="font-semibold text-slate-700">Correo:</span> {session.user.email || 'No disponible'}</p>
                     <p><span className="font-semibold text-slate-700">ID de usuario:</span> <span className="font-mono text-xs break-all">{session.user.id}</span></p>
                     <p className="text-xs text-slate-500">Identidad administrada por Supabase Auth.</p>
