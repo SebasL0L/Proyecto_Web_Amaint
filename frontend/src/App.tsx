@@ -1215,7 +1215,7 @@ function AccountDashboard({
     {menuOpen && <div className="fixed inset-0 z-[80]"><button aria-label="Cerrar menú" onClick={() => setMenuOpen(false)} className="absolute inset-0 bg-slate-950/50"/><aside className="absolute right-0 top-0 h-full w-full max-w-sm bg-white shadow-2xl p-6 flex flex-col animate-in slide-in-from-right duration-200">
       <div className="flex justify-between items-center pb-5 border-b border-slate-200"><div><p className="font-bold text-lg">Mi espacio AMaint</p><p className="text-xs text-slate-500">Cuenta y servicios</p></div><button onClick={() => setMenuOpen(false)} aria-label="Cerrar menú" className="p-2 rounded-lg hover:bg-slate-100"><X/></button></div>
       <div className="py-5 border-b border-slate-200"><div className="w-12 h-12 rounded-full bg-gradient-to-br from-sky-100 to-blue-100 text-sky-700 flex items-center justify-center mb-3"><User/></div><p className="font-semibold">{userName}</p><p className="text-xs text-slate-500 break-all">{userEmail}</p><p className="text-xs text-slate-500 mt-2">{companyName} · {companyRole}</p></div>
-      <nav className="py-4 space-y-1">{options.map(([Icon,label,destination]) => <button key={destination} onClick={() => handleNavigate(destination)} className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-[#edf6f1] text-sm text-left"><span className="flex items-center gap-3"><Icon size={18} className="text-[#176b52]"/>{label}</span><ChevronRight size={17} className="text-slate-400"/></button>)}</nav>
+      <nav className="py-4 space-y-1">{options.map(([Icon,label,destination]) => <button key={destination} onClick={() => handleNavigate(destination)} className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-[#edf6f1] text-sm text-left"><span className="flex items-center gap-3"><Icon size={18} className="text-[#155eef]"/>{label}</span><ChevronRight size={17} className="text-slate-400"/></button>)}</nav>
       <button onClick={() => void handleLogout()} className="mt-auto w-full flex items-center gap-3 p-3 rounded-xl border-t border-slate-200 pt-5 text-red-600 hover:bg-red-50 text-sm font-semibold"><LogOut size={18}/>Cerrar sesión</button>
     </aside></div>}
     <main className="max-w-7xl mx-auto px-5 py-14">
@@ -1225,7 +1225,7 @@ function AccountDashboard({
       <p className="text-slate-600 mt-3">AMaint · Plataforma de gestión de mantenimiento industrial.</p>
       <p className="text-slate-500 text-sm mt-2">Sesión activa: {userEmail}. Organización: {companyName}.</p>
       </section>
-      <div className="grid md:grid-cols-3 gap-6 mt-12">{options.map(([Icon,title,destination]) => <button key={destination} onClick={() => handleNavigate(destination)} className="bg-white/90 border border-sky-100 rounded-2xl p-8 text-left hover:border-sky-300 hover:shadow-xl hover:shadow-sky-900/5 transition"><div className="w-12 h-12 rounded-xl bg-[#d8eee5] text-[#176b52] flex items-center justify-center"><Icon size={23}/></div><h2 className="text-xl font-bold mt-6">{title}</h2><p className="text-sm text-slate-500 mt-3">{destination === 'account' ? 'Consulta tus datos personales y correo de acceso.' : destination === 'subscription' ? 'Consulta las modalidades comerciales de AMaint.' : 'Ingresa a las herramientas de mantenimiento de tu empresa.'}</p><p className="text-sm text-[#176b52] font-semibold mt-7">Acceder <ArrowRight className="inline" size={16}/></p></button>)}</div>
+      <div className="grid md:grid-cols-3 gap-6 mt-12">{options.map(([Icon,title,destination]) => <button key={destination} onClick={() => handleNavigate(destination)} className="bg-white/90 border border-sky-100 rounded-2xl p-8 text-left hover:border-sky-300 hover:shadow-xl hover:shadow-sky-900/5 transition"><div className="w-12 h-12 rounded-xl bg-[#dbeafe] text-[#155eef] flex items-center justify-center"><Icon size={23}/></div><h2 className="text-xl font-bold mt-6">{title}</h2><p className="text-sm text-slate-500 mt-3">{destination === 'account' ? 'Consulta tus datos personales y correo de acceso.' : destination === 'subscription' ? 'Consulta las modalidades comerciales de AMaint.' : 'Ingresa a las herramientas de mantenimiento de tu empresa.'}</p><p className="text-sm text-[#155eef] font-semibold mt-7">Acceder <ArrowRight className="inline" size={16}/></p></button>)}</div>
     </main>
   </div>;
 }
@@ -1242,7 +1242,7 @@ function SimpleAccountView({ mode, onNavigate, session }: {
   const isAccount = mode === 'account';
 
   return (
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-gradient-to-br from-[#f3f9ff] via-white to-[#e6f4ff]">
         <header className="bg-white border-b border-slate-200 px-6 py-5 flex justify-between">
           <button onClick={() => onNavigate('dashboard')} className="font-bold text-xl">
             AMaint<span className="text-blue-600">.</span>
@@ -1286,7 +1286,7 @@ function SimpleAccountView({ mode, onNavigate, session }: {
                     desde nuestra página comercial.
                   </p>
                   <button onClick={() => onNavigate('home')}
-                          className="mt-6 bg-[#176b52] hover:bg-[#145b46] text-white px-6 py-3 rounded-lg">
+                          className="mt-6 bg-[#155eef] hover:bg-[#145b46] text-white px-6 py-3 rounded-lg">
                     Ver planes comerciales
                   </button>
                 </>
@@ -1455,12 +1455,12 @@ export default function App() {
             <div className="bg-white text-[#17212b] border-b border-[#d3dbe3] px-5 py-3 flex justify-between items-center shadow-sm">
 
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-[#d8eee5] text-[#176b52] flex items-center justify-center">
+                <div className="w-9 h-9 rounded-lg bg-[#dbeafe] text-[#155eef] flex items-center justify-center">
                   <Wrench size={20} />
                 </div>
 
                 <div>
-                  <p className="font-bold text-[#176b52]">AMaint · ANDINA</p>
+                  <p className="font-bold text-[#155eef]">AMaint · ANDINA</p>
                   <p className="text-xs text-blue-100">
                     Mi App AMaint
                   </p>
@@ -1469,7 +1469,7 @@ export default function App() {
 
               <button
                   onClick={() => setScreen('dashboard')}
-                  className="text-sm text-[#176b52] hover:bg-[#d8eee5] px-4 py-2 rounded-lg transition"
+                  className="text-sm text-[#155eef] hover:bg-[#dbeafe] px-4 py-2 rounded-lg transition"
               >
                 Volver al panel
               </button>
