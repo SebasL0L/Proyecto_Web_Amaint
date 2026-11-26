@@ -1363,8 +1363,9 @@ export default function App() {
           return;
         }
 
-        // Recuperamos la sesión existente.
+        // Recuperamos la sesión persistida y restauramos el panel autenticado.
         setSession(data.session);
+        setScreen(data.session ? 'dashboard' : 'home');
 
       } catch (error) {
         console.error(
