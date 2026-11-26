@@ -1195,7 +1195,7 @@ function AccountDashboard({
   const [companyName, setCompanyName] = useState('Cuenta personal');
   const [companyRole, setCompanyRole] = useState('Sin membresía empresarial');
   useEffect(() => { let active = true; const loadMembership = async () => { const { data: memberships } = await supabase.from('usuario_empresa').select('empresa_id, rol').eq('usuario_id', session.user.id).eq('activo', true).limit(1); const membership = memberships?.[0]; if (!membership || !active) return; setCompanyRole(String(membership.rol || 'Usuario').replaceAll('_', ' ')); const { data: company } = await supabase.from('empresa').select('razon_social, nombre_comercial').eq('id', membership.empresa_id).maybeSingle(); if (active && company) setCompanyName(company.nombre_comercial || company.razon_social || 'Empresa'); }; void loadMembership(); return () => { active = false; }; }, [session.user.id]);
-  const userName = 'Usuario AMaint';
+  const userName = session.user.user_metadata?.full_name || session.user.user_metadata?.name || 'Nombre no configurado';
   const userEmail = session.user.email || '';
   const options = [
     [User, 'Mi cuenta', 'account'],
@@ -1206,10 +1206,10 @@ function AccountDashboard({
   const handleLogout = async () => { setMenuOpen(false); await onLogout(); };
 
   return <div className="min-h-screen bg-slate-50 text-slate-900">
-    <header className="bg-gradient-to-r from-[#155eef] to-[#087eaa] text-white shadow-lg">
+    <header className="bg-gradient-to-r from-[#145b46] to-[#1b765b] text-white shadow-lg">
       <div className="max-w-7xl mx-auto px-5 py-4 flex justify-between items-center">
         <button onClick={() => handleNavigate('home')} className="flex items-center gap-3 text-2xl font-bold"><span className="w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center"><Wrench size={22}/></span>AMaint.</button>
-        <button onClick={() => setMenuOpen(true)} aria-expanded={menuOpen} className="flex items-center gap-3 border border-white/20 rounded-xl px-4 py-2 hover:bg-white/10 transition"><span className="w-9 h-9 rounded-full bg-white text-blue-700 flex items-center justify-center"><User size={19}/></span><span className="hidden sm:block text-left"><span className="block text-sm font-semibold">{userName}</span><span className="block text-xs text-blue-100">{userEmail}</span></span><Menu size={18}/></button>
+        <button onClick={() => setMenuOpen(true)} aria-expanded={menuOpen} className="flex items-center gap-3 border border-white/20 rounded-xl px-4 py-2 hover:bg-white/10 transition"><span className="w-9 h-9 rounded-full bg-white text-[#145b46] flex items-center justify-center"><User size={19}/></span><span className="hidden sm:block text-left"><span className="block text-sm font-semibold">{userName}</span><span className="block text-xs text-emerald-100">{userEmail}</span></span><Menu size={18}/></button>
       </div>
     </header>
     {menuOpen && <div className="fixed inset-0 z-[80]"><button aria-label="Cerrar menú" onClick={() => setMenuOpen(false)} className="absolute inset-0 bg-slate-950/50"/><aside className="absolute right-0 top-0 h-full w-full max-w-sm bg-white shadow-2xl p-6 flex flex-col animate-in slide-in-from-right duration-200">
@@ -1283,7 +1283,7 @@ function SimpleAccountView({ mode, onNavigate, session }: {
                     desde nuestra página comercial.
                   </p>
                   <button onClick={() => onNavigate('home')}
-                          className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg">
+                          className="mt-6 bg-[#176b52] hover:bg-[#145b46] text-white px-6 py-3 rounded-lg">
                     Ver planes comerciales
                   </button>
                 </>
