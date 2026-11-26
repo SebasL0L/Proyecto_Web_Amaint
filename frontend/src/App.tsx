@@ -1328,9 +1328,9 @@ export default function App() {
     // Primero escuchamos los cambios de autenticación.
     const {
       data: { subscription }
-    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+    } = supabase.auth.onAuthStateChange((event, nextSession) => {
 
-      if (!active || processingConfirmation) return;
+      if (!active || processingConfirmation || event === 'INITIAL_SESSION') return;
 
       setSession(nextSession);
       setAuthLoading(false);
@@ -1360,25 +1360,30 @@ export default function App() {
           throw error;
         }
 
-        // Si regresa desde un enlace de confirmación, NO cerramos su sesión.
-        // Si Supabase entregó una sesión, la conservamos; si no, mostramos el login.
-        if (confirmed) {
-          window.history.replaceState(
-              {},
-              document.title,
-              window.location.pathname
-          );
+        // No confiamos únicamente en la sesión guardada en localStorage.
+        // getUser consulta Supabase Auth y confirma que la cuenta todavía existe.
+        let verifiedSession = data.session;
+        if (verifiedSession) {
+          const { data: verified, error: userError } = await supabase.auth.getUser();
+          if (userError || !verified.user) {
+            await supabase.auth.signOut({ scope: 'local' });
+            verifiedSession = null;
+          }
+        }
 
-          setSession(data.session);
-          setScreen(data.session ? 'dashboard' : 'login');
+        // Si regresa desde un enlace de confirmación, conserva solo una sesión válida.
+        if (confirmed) {
+          window.history.replaceState({}, document.title, window.location.pathname);
+          setSession(verifiedSession);
+          setScreen(verifiedSession ? 'dashboard' : 'login');
           setAuthLoading(false);
           processingConfirmation = false;
           return;
         }
 
-        // Recuperamos la sesión persistida y restauramos el panel autenticado.
-        setSession(data.session);
-        setScreen(data.session ? 'dashboard' : 'home');
+        // Restauramos únicamente sesiones verificadas contra Supabase.
+        setSession(verifiedSession);
+        setScreen(verifiedSession ? 'dashboard' : 'home');
 
       } catch (error) {
         console.error(
