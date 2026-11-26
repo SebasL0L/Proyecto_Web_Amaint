@@ -22,7 +22,7 @@ export const Header: React.FC = () => {
       if (!active || !data.user) return;
       const user = data.user;
       setEmail(user.email ?? 'Correo no disponible');
-      setDisplayName(user.user_metadata?.full_name || user.user_metadata?.name || 'Usuario AMaint');
+      setDisplayName('Usuario AMaint');
       const { data: memberships } = await supabase.from('usuario_empresa').select('empresa_id, rol').eq('usuario_id', user.id).eq('activo', true).limit(1);
       const membership = memberships?.[0];
       if (membership && active) {
@@ -50,8 +50,6 @@ export const Header: React.FC = () => {
           </div>
           <div className="flex items-center gap-2">
             <span className="hidden sm:flex items-center gap-1.5 text-xs text-on-surface-variant"><Clock className="w-3.5 h-3.5" />{time} CLT</span>
-            <button onClick={() => setCurrentView('escaner-qr-activos')} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 text-primary text-xs font-semibold hover:bg-primary/20"><QrCode className="w-4 h-4" /><span className="hidden md:inline">Escanear activo</span></button>
-            <button onClick={triggerManualSync} disabled={isSyncing} className="flex items-center gap-2 px-3 py-2 rounded-lg border border-outline/20 text-xs font-semibold hover:bg-surface-container disabled:opacity-60"><RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} /><span className="hidden md:inline">{isSyncing ? 'Sincronizando' : 'Sincronizar'}</span></button>
             <button onClick={() => setDrawerOpen(true)} aria-label="Abrir menú de usuario" className="flex items-center gap-2 p-2 rounded-xl hover:bg-surface-container border border-outline/10"><UserRound className="w-5 h-5" /><span className="hidden lg:block text-left"><span className="block text-xs font-semibold">{displayName}</span><span className="block text-[10px] text-on-surface-variant">{role}</span></span><Menu className="w-4 h-4" /></button>
           </div>
         </div>
