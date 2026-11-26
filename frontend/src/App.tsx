@@ -1558,9 +1558,9 @@ export default function App() {
   if (screen === 'application' && session) {
     return (
         <AppProvider>
-          <div className="min-h-screen">
+          <div className="min-h-screen bg-gradient-to-br from-[#f5faff] via-[#edf6ff] to-[#e2f5ff]">
 
-            <div className="bg-gradient-to-r from-[#155eef] to-[#087eaa] text-white px-5 py-3 flex justify-between items-center shadow-md">
+            <div className="bg-gradient-to-r from-[#155eef] via-[#168bd5] to-[#35c0e6] text-white px-5 py-3 flex justify-between items-center shadow-lg shadow-blue-900/10">
 
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-white/20 border border-white/25 flex items-center justify-center shadow-inner">
@@ -1568,10 +1568,11 @@ export default function App() {
                 </div>
 
                 <div>
-                  <p className="font-bold">AMaint.</p>
-                  <p className="text-xs text-blue-100">
-                    Mi App AMaint
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-bold tracking-tight">AMaint.</p>
+                    <span className="text-[10px] font-bold tracking-widest bg-white/15 border border-white/25 px-2 py-0.5 rounded-full">ANDINA</span>
+                  </div>
+                  <p className="text-xs text-blue-100">Manufacturas Andina S.A. · Plataforma de mantenimiento</p>
                 </div>
               </div>
 
