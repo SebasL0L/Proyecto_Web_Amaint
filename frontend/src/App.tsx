@@ -1347,35 +1347,18 @@ export default function App() {
           throw error;
         }
 
-        // El usuario acaba de regresar de confirmar
-        // su correo electrónico.
+        // Si regresa desde un enlace de confirmación, NO cerramos su sesión.
+        // Si Supabase entregó una sesión, la conservamos; si no, mostramos el login.
         if (confirmed) {
-
-          if (data.session) {
-            const { error: logoutError } =
-                await supabase.auth.signOut();
-
-            if (logoutError) {
-              console.error(
-                  'Error al cerrar la sesión después de confirmar:',
-                  logoutError.message
-              );
-            }
-          }
-
-          if (!active) return;
-
-          // Limpiamos el parámetro de confirmación de la URL.
           window.history.replaceState(
               {},
               document.title,
               window.location.pathname
           );
 
-          setSession(null);
-          setScreen('login');
+          setSession(data.session);
+          setScreen(data.session ? 'dashboard' : 'login');
           setAuthLoading(false);
-
           processingConfirmation = false;
           return;
         }
