@@ -1,146 +1,73 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import {
-  QrCode,
-  RefreshCw,
-  Wifi,
-  HardDrive,
-  ShieldCheck,
-  Clock,
-  Layers,
-} from 'lucide-react';
+import { supabase } from '../../lib/supabase';
+import { QrCode, RefreshCw, Clock, Layers, Menu, X, UserRound, LogOut, Building2, Settings, ChevronRight } from 'lucide-react';
 
 export const Header: React.FC = () => {
-  const {
-    setCurrentView,
-    isSyncing,
-    triggerManualSync,
-    offlineQueueCount,
-  } = useApp();
-
-  const [time, setTime] = useState<string>('10:14:22');
+  const { setCurrentView, isSyncing, triggerManualSync } = useApp();
+  const [time, setTime] = useState('');
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [email, setEmail] = useState('Cuenta autenticada');
+  const [displayName, setDisplayName] = useState('Usuario AMaint');
+  const [company, setCompany] = useState('Espacio empresarial');
+  const [role, setRole] = useState('Usuario');
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date();
-      setTime(
-        now.toLocaleTimeString('es-CL', {
-          hour12: false,
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-        })
-      );
-    }, 1000);
-    return () => clearInterval(interval);
+    const update = () => setTime(new Date().toLocaleTimeString('es-CL', { hour12: false, hour: '2-digit', minute: '2-digit' }));
+    update();
+    const timer = window.setInterval(update, 30000);
+    let active = true;
+    const loadIdentity = async () => {
+      const { data } = await supabase.auth.getUser();
+      if (!active || !data.user) return;
+      const user = data.user;
+      setEmail(user.email ?? 'Correo no disponible');
+      setDisplayName(user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuario AMaint');
+      const { data: memberships } = await supabase.from('usuario_empresa').select('empresa_id, rol').eq('usuario_id', user.id).eq('activo', true).limit(1);
+      const membership = memberships?.[0];
+      if (membership && active) {
+        setRole(String(membership.rol).replaceAll('_', ' '));
+        const { data: companyData } = await supabase.from('empresa').select('razon_social, nombre_comercial').eq('id', membership.empresa_id).maybeSingle();
+        if (active && companyData) setCompany(companyData.nombre_comercial || companyData.razon_social || 'Empresa');
+      }
+    };
+    void loadIdentity();
+    return () => { active = false; window.clearInterval(timer); };
   }, []);
 
+  const signOut = async () => { await supabase.auth.signOut(); window.location.assign('/'); };
+
   return (
-    <header className="sticky top-0 z-40 bg-surface-container-low border-b border-outline/10 text-on-surface select-none shadow-sm">
-      {/* Top Telemetry & Connectivity Strip */}
-      <div className="bg-surface-container-lowest px-4 py-1 text-[11px] font-mono flex flex-wrap items-center justify-between border-b border-outline/5 text-on-surface-variant">
-        <div className="flex items-center gap-3">
-          <span className="inline-flex items-center gap-1.5 text-emerald-400 font-semibold tracking-wider">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            PWA STATUS: OFFLINE-READY
-          </span>
-          <span className="text-outline/40">|</span>
-          <span className="text-on-surface-variant/80 flex items-center gap-1">
-            <HardDrive className="w-3 h-3 text-secondary" />
-            SW v4.2.1 • Cache: 14.2 MB
-          </span>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <span className="hidden sm:inline-flex items-center gap-1.5 text-tertiary font-medium">
-            <ShieldCheck className="w-3.5 h-3.5 text-tertiary" />
-            BUFFER OFFLINE: {offlineQueueCount} TRANSACCIONES (AES-256)
-          </span>
-          <span className="text-outline/40 hidden sm:inline">|</span>
+    <>
+      <header className="sticky top-0 z-40 bg-surface-container-low border-b border-outline/10 text-on-surface shadow-sm">
+        <div className="px-4 py-3 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0"><Layers className="w-6 h-6 text-primary" /></div>
+            <div className="min-w-0">
+              <div className="font-bold text-lg truncate">AMaint</div>
+              <p className="text-xs text-on-surface-variant truncate">{company}</p>
+            </div>
+          </div>
           <div className="flex items-center gap-2">
-            <Clock className="w-3 h-3 text-on-surface-variant/70" />
-            <span>HORA PLANTA:</span>
-            <span className="text-primary font-bold">{time} CLT</span>
+            <span className="hidden sm:flex items-center gap-1.5 text-xs text-on-surface-variant"><Clock className="w-3.5 h-3.5" />{time} CLT</span>
+            <button onClick={() => setCurrentView('escaner-qr-activos')} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 text-primary text-xs font-semibold hover:bg-primary/20"><QrCode className="w-4 h-4" /><span className="hidden md:inline">Escanear activo</span></button>
+            <button onClick={triggerManualSync} disabled={isSyncing} className="flex items-center gap-2 px-3 py-2 rounded-lg border border-outline/20 text-xs font-semibold hover:bg-surface-container disabled:opacity-60"><RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} /><span className="hidden md:inline">{isSyncing ? 'Sincronizando' : 'Sincronizar'}</span></button>
+            <button onClick={() => setDrawerOpen(true)} aria-label="Abrir menú de usuario" className="flex items-center gap-2 p-2 rounded-xl hover:bg-surface-container border border-outline/10"><UserRound className="w-5 h-5" /><span className="hidden lg:block text-left"><span className="block text-xs font-semibold">{displayName}</span><span className="block text-[10px] text-on-surface-variant">{role}</span></span><Menu className="w-4 h-4" /></button>
           </div>
         </div>
-      </div>
-
-      {/* Main App Navigation Bar */}
-      <div className="px-4 py-2.5 flex items-center justify-between gap-3">
-        {/* Brand & Plant Info */}
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="w-10 h-10 rounded-lg bg-surface-container-highest border border-outline/20 flex items-center justify-center shrink-0 shadow-inner group">
-            <Layers className="w-6 h-6 text-primary transition-transform group-hover:scale-105" />
-          </div>
-          <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              <span className="font-sans font-bold text-lg text-on-surface tracking-tight truncate">
-                Amaint
-              </span>
-              <span className="text-xs px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20 font-mono font-medium">
-                v4.2
-              </span>
-            </div>
-            <p className="text-[11px] font-mono text-on-surface-variant truncate">
-              Planta Los Andes • Líneas Críticas Plásticos
-            </p>
-          </div>
-        </div>
-
-        {/* Global Action Buttons & Profile */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          <button
-            onClick={() => setCurrentView('escaner-qr-activos')}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/15 hover:bg-primary/25 text-primary border border-primary/30 text-xs font-semibold tracking-wide transition-all active:scale-95"
-            title="Escanear Código QR o Código de Barra de Activo"
-          >
-            <QrCode className="w-4 h-4" />
-            <span className="hidden md:inline">Escanear Activo</span>
-          </button>
-
-          <button
-            onClick={triggerManualSync}
-            disabled={isSyncing}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-semibold tracking-wide transition-all active:scale-95 ${
-              isSyncing
-                ? 'bg-secondary/20 text-secondary border-secondary/40'
-                : 'bg-surface-container hover:bg-surface-container-high text-on-surface border-outline/20'
-            }`}
-            title="Sincronizar cola de transacciones offline"
-          >
-            <RefreshCw
-              className={`w-3.5 h-3.5 text-secondary ${
-                isSyncing ? 'animate-spin' : ''
-              }`}
-            />
-            <span className="hidden md:inline">
-              {isSyncing ? 'Sincronizando...' : 'Sincronizar'}
-            </span>
-          </button>
-
-          <div className="h-6 w-px bg-outline/20 mx-1 hidden sm:block" />
-
-          {/* User Profile Pill */}
-          <div className="flex items-center gap-2.5 pl-1 py-1 rounded-lg bg-surface-container-lowest/60 border border-outline/10">
-            <div className="relative">
-              <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPnf1IGI8mYtSiw50ftYXnzXXjDAUHYx3wwEmyVLzlbyc0g32boOhmX52UGxgHW6cuHAcCJws4hx4Ae6xtg20MGB-33CUf70unMYwq3eL25gLA3_CNgtC0FFit8w-HymakuvbEOps1Uye_haElZ8UUuV0KsNitKKG28EJnzaO8bSww5kI5qfi2dJcKueDeHzYgMoV0G_F5UO2gOj8lkkQevanpuAJLJsg3ksDIOn8"
-                alt="Carlos Mendoza"
-                className="w-8 h-8 rounded-md object-cover border border-outline/30"
-              />
-              <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-surface-container-lowest" />
-            </div>
-            <div className="hidden lg:block text-left pr-2">
-              <div className="text-xs font-semibold text-on-surface leading-tight">
-                Carlos Mendoza
-              </div>
-              <div className="text-[10px] text-on-surface-variant font-mono">
-                Técnico Mecánico • Turno A
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+      </header>
+      {drawerOpen && <div className="fixed inset-0 z-[70]">
+        <button aria-label="Cerrar menú" onClick={() => setDrawerOpen(false)} className="absolute inset-0 bg-black/50" />
+        <aside className="absolute right-0 top-0 h-full w-full max-w-sm bg-surface-container-lowest text-on-surface shadow-2xl p-5 flex flex-col animate-in slide-in-from-right duration-200">
+          <div className="flex items-center justify-between pb-5 border-b border-outline/15"><div className="font-bold text-lg">Mi espacio AMaint</div><button onClick={() => setDrawerOpen(false)} aria-label="Cerrar"><X /></button></div>
+          <div className="py-5 border-b border-outline/15"><div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-3"><UserRound /></div><p className="font-semibold">{displayName}</p><p className="text-xs text-on-surface-variant break-all">{email}</p><div className="mt-3 text-xs rounded-lg bg-primary/10 text-primary px-3 py-2">{company} · {role}</div></div>
+          <nav className="py-4 space-y-1">
+            <button onClick={() => { setDrawerOpen(false); setCurrentView('jerarquia-de-activos'); }} className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-surface-container text-sm"><span className="flex items-center gap-3"><Building2 className="w-4 h-4" /> Estructura industrial</span><ChevronRight className="w-4 h-4" /></button>
+            <button onClick={() => { setDrawerOpen(false); setCurrentView('mis-ots-dashboard'); }} className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-surface-container text-sm"><span className="flex items-center gap-3"><Settings className="w-4 h-4" /> Panel de trabajo</span><ChevronRight className="w-4 h-4" /></button>
+          </nav>
+          <div className="mt-auto border-t border-outline/15 pt-4"><button onClick={() => void signOut()} className="w-full flex items-center gap-3 p-3 rounded-xl text-error hover:bg-error/10 text-sm font-semibold"><LogOut className="w-4 h-4" /> Cerrar sesión</button></div>
+        </aside>
+      </div>}
+    </>
   );
 };
