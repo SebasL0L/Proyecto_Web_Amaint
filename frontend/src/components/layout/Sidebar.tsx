@@ -107,8 +107,8 @@ export const Sidebar: React.FC = () => {
               onClick={() => setCurrentView(item.id)}
               className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all group ${
                 isActive
-                  ? 'bg-surface-container-high text-primary border-l-4 border-primary shadow-sm font-semibold'
-                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container/60'
+                  ? 'bg-gradient-to-r from-[#dcecff] to-[#e3f8ff] text-primary border-l-4 border-primary shadow-sm font-semibold'
+                  : 'text-on-surface-variant hover:text-primary hover:bg-[#eaf5ff]'
               }`}
             >
               <div className="flex items-center gap-2.5 truncate">
@@ -140,7 +140,7 @@ export const Sidebar: React.FC = () => {
   );
 
   return (
-    <aside className="w-64 bg-surface-container-lowest border-r border-outline/10 flex flex-col justify-between shrink-0 h-[calc(100vh-65px)] overflow-y-auto select-none">
+    <aside className="w-64 bg-gradient-to-b from-white via-[#f7fbff] to-[#edf8ff] border-r border-blue-100 flex flex-col justify-between shrink-0 h-[calc(100vh-65px)] overflow-y-auto select-none">
       <div className="p-3">
         {renderNavList('Operación Planta', plantModule)}
         {renderNavList('Gestión & Logística', managementModule)}
