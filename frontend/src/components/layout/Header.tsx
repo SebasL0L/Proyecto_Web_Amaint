@@ -39,24 +39,24 @@ export const Header: React.FC = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-surface-container-low border-b border-outline/10 text-on-surface shadow-sm">
+      <header className="sticky top-0 z-40 bg-gradient-to-r from-[#eaf5ff] via-white to-[#dff1ff] border-b border-sky-200/70 text-slate-800 shadow-sm">
         <div className="px-4 py-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0"><Layers className="w-6 h-6 text-primary" /></div>
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-blue-700 flex items-center justify-center shrink-0 shadow-md shadow-sky-900/15"><Building2 className="w-6 h-6 text-white" /></div>
             <div className="min-w-0">
-              <div className="font-bold text-lg truncate">AMaint</div>
-              <p className="text-xs text-on-surface-variant truncate">{company}</p>
+              <div className="font-extrabold text-lg tracking-wide truncate">{company}</div>
+              <p className="text-xs text-sky-700 font-semibold truncate">AMaint · Gestión de mantenimiento</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <span className="hidden sm:flex items-center gap-1.5 text-xs text-on-surface-variant"><Clock className="w-3.5 h-3.5" />{time} CLT</span>
-            <button onClick={() => setDrawerOpen(true)} aria-label="Abrir menú de usuario" className="flex items-center gap-2 p-2 rounded-xl hover:bg-surface-container border border-outline/10"><UserRound className="w-5 h-5" /><span className="hidden lg:block text-left"><span className="block text-xs font-semibold">{displayName}</span><span className="block text-[10px] text-on-surface-variant">{role}</span></span><Menu className="w-4 h-4" /></button>
+            <button onClick={() => setDrawerOpen(true)} aria-label="Abrir menú de usuario" className="flex items-center gap-2 p-2 rounded-xl hover:bg-sky-100 border border-sky-200/80"><UserRound className="w-5 h-5" /><span className="hidden lg:block text-left"><span className="block text-xs font-semibold">{displayName}</span><span className="block text-[10px] text-on-surface-variant">{role}</span></span><Menu className="w-4 h-4" /></button>
           </div>
         </div>
       </header>
       {drawerOpen && <div className="fixed inset-0 z-[70]">
         <button aria-label="Cerrar menú" onClick={() => setDrawerOpen(false)} className="absolute inset-0 bg-black/50" />
-        <aside className="absolute right-0 top-0 h-full w-full max-w-sm bg-surface-container-lowest text-on-surface shadow-2xl p-5 flex flex-col animate-in slide-in-from-right duration-200">
+        <aside className="absolute right-0 top-0 h-full w-full max-w-sm bg-gradient-to-b from-sky-50 via-white to-white text-slate-800 shadow-2xl p-5 flex flex-col animate-in slide-in-from-right duration-200">
           <div className="flex items-center justify-between pb-5 border-b border-outline/15"><div className="font-bold text-lg">Mi espacio AMaint</div><button onClick={() => setDrawerOpen(false)} aria-label="Cerrar"><X /></button></div>
           <div className="py-5 border-b border-outline/15"><div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-3"><UserRound /></div><p className="font-semibold">{displayName}</p><p className="text-xs text-on-surface-variant break-all">{email}</p><div className="mt-3 text-xs rounded-lg bg-primary/10 text-primary px-3 py-2">{company} · {role}</div></div>
           <nav className="py-4 space-y-1">
